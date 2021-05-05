@@ -2,8 +2,10 @@ console.log('kostas says hello');
 console.log('Dave says hello');
 
 $(() => {
-  let grid = createGridStructure(30);
-  makeMaze(grid);
+  setTimeout(() => {
+    let grid = createGridStructure(30);
+    makeMaze(grid);
+  }, 500);
 });
 
 function renderGrid(grid, currRow, currColumn) {
