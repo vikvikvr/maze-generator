@@ -1,9 +1,5 @@
-// The depth-first search algorithm of maze generation is frequently
-// implemented using backtracking.
-// This can be described with a following recursive routine:
 console.log('kostas says hello');
 console.log('Dave says hello');
-// https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 $(() => {
   let grid = createGridStructure(30);
@@ -163,12 +159,3 @@ function pickRandomElementFromArray(array = []) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
-
-// 1. Choose the initial cell, mark it as visited and push it to the stack
-// 2. While the stack is not empty
-//      A. Pop a cell from the stack and make it a current cell
-//      B. If the current cell has any neighbours which have not been visited
-//            a. Push the current cell to the stack
-//            b. Choose one of the unvisited neighbours
-//            c. Remove the wall between the current cell and the chosen cell
-//            d. Mark the chosen cell as visited and push it to the stack
