@@ -52,7 +52,7 @@ function sleep(ms) {
   });
 }
 
-function makeMaze(grid) {
+async function makeMaze(grid) {
   let currentCell = grid[0][0];
   let stack = [];
   let currRow = (currCol = 0);
@@ -72,7 +72,7 @@ function makeMaze(grid) {
       currCol = neighbourCell.columnIndex;
       stack.push(neighbourCell);
     }
-    // await sleep(1);
+    await sleep(50);
     renderGrid(grid, currRow, currCol);
   }
 }
