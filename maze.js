@@ -19,7 +19,7 @@ function renderGrid(grid, currRow, currColumn) {
 }
 
 function modifyCellElemnt(cell, isCurrent) {
-  const $div = $(`#cell-${cell.rowIndex}-${cell.columnIndex}`);
+  const { $div } = cell;
   // basic style
   $div.addClass(cell.wasVisited ? 'visited' : '');
   if (isCurrent) {
@@ -38,8 +38,6 @@ function modifyCellElemnt(cell, isCurrent) {
 function createCellElement(cell) {
   const cellSize = 20;
   const $div = $('<div>');
-  const cellId = `cell-${cell.rowIndex}-${cell.columnIndex}`;
-  $div.attr('id', cellId);
   $div.addClass('cell');
   $div.css('left', cell.columnIndex * cellSize);
   $div.css('top', cell.rowIndex * cellSize);
@@ -140,6 +138,7 @@ function Cell(columnIndex = 0, rowIndex = 0) {
   this.wasVisited = false;
   this.columnIndex = columnIndex;
   this.rowIndex = rowIndex;
+  this.$div = null;
 }
 
 function createGridStructure(size) {
@@ -150,6 +149,7 @@ function createGridStructure(size) {
       const cell = new Cell(columnIndex, rowIndex);
       const $div = createCellElement(cell);
       $(document.body).append($div);
+      cell.$div = $div;
       tempRow.push(cell);
     }
     grid.push(tempRow);
