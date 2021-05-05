@@ -1,7 +1,8 @@
 // The depth-first search algorithm of maze generation is frequently
 // implemented using backtracking.
 // This can be described with a following recursive routine:
-
+console.log('kostas says hello')
+console.log('Dave says hello')
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 $(() => {
