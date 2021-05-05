@@ -1,11 +1,12 @@
 console.log('kostas says hello');
 console.log('Dave says hello');
 
-$(() => {
-  setTimeout(() => {
-    let grid = createGridStructure(30);
-    makeMaze(grid);
-  }, 500);
+$(async () => {
+  await sleep(500);
+  let grid = createGridStructure(30);
+  makeMaze(grid, (currRow, currCol) => {
+    renderGrid(grid, currRow, currCol);
+  });
 });
 
 function renderGrid(grid, currRow, currColumn) {
@@ -52,7 +53,7 @@ function sleep(ms) {
   });
 }
 
-async function makeMaze(grid) {
+async function makeMaze(grid, renderCallback) {
   let currentCell = grid[0][0];
   let stack = [];
   let currRow = (currCol = 0);
@@ -73,7 +74,7 @@ async function makeMaze(grid) {
       stack.push(neighbourCell);
     }
     await sleep(20);
-    renderGrid(grid, currRow, currCol);
+    if (renderCallback) renderCallback(currRow, currCol);
   }
 }
 
