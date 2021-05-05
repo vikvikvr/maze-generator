@@ -10,20 +10,39 @@ $(() => {
 });
 
 function renderGrid(grid, currRow, currColumn) {
-  $(document.body).empty();
+  // $(document.body).empty();
   for (let row = 0; row < grid.length; row++) {
     for (let column = 0; column < grid.length; column++) {
       const cell = grid[row][column];
       const isCurrent = currRow === row && currColumn === column;
-      const $div = createCellElement(cell, isCurrent);
-      $(document.body).append($div);
+      modifyCellElemnt(cell, isCurrent);
+      // const $div = createCellElement(cell, isCurrent);
+      // $(document.body).append($div);
     }
   }
+}
+
+function modifyCellElemnt(cell, isCurrent) {
+  const $div = $(`#cell-${cell.rowIndex}-${cell.columnIndex}`);
+  // basic style
+  $div.addClass(cell.wasVisited ? 'visited' : '');
+  if (isCurrent) {
+    $div.addClass('current');
+  } else {
+    $div.removeClass('current');
+  }
+  // hides walls
+  if (!cell.topWall) $div.addClass('no-top');
+  if (!cell.bottomWall) $div.addClass('no-bottom');
+  if (!cell.leftWall) $div.addClass('no-left');
+  if (!cell.rightWall) $div.addClass('no-right');
+  return $div;
 }
 
 function createCellElement(cell, isCurrent) {
   const cellSize = 20;
   const $div = $('<div>');
+  $div.attr('id', `cell-${cell.rowIndex}-${cell.columnIndex}`);
   $div.addClass('cell');
   // positions cell
   $div.css('left', cell.columnIndex * cellSize);
@@ -51,7 +70,7 @@ function sleep(ms) {
   });
 }
 
-function makeMaze(grid) {
+async function makeMaze(grid) {
   let currentCell = grid[0][0];
   let stack = [];
   let currRow = (currCol = 0);
@@ -71,7 +90,7 @@ function makeMaze(grid) {
       currCol = neighbourCell.columnIndex;
       stack.push(neighbourCell);
     }
-    // await sleep(1);
+    await sleep(20);
     renderGrid(grid, currRow, currCol);
   }
 }
@@ -144,7 +163,10 @@ function createGridStructure(size) {
   for (let rowIndex = 0; rowIndex < size; rowIndex++) {
     let tempRow = [];
     for (let columnIndex = 0; columnIndex < size; columnIndex++) {
-      tempRow.push(new Cell(columnIndex, rowIndex));
+      const cell = new Cell(columnIndex, rowIndex);
+      const $div = createCellElement(cell);
+      $(document.body).append($div);
+      tempRow.push(cell);
     }
     grid.push(tempRow);
   }
