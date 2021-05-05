@@ -1,8 +1,8 @@
 // The depth-first search algorithm of maze generation is frequently
 // implemented using backtracking.
 // This can be described with a following recursive routine:
-console.log('kostas says hello')
-console.log('Dave says hello')
+console.log('kostas says hello');
+console.log('Dave says hello');
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 $(() => {
@@ -11,14 +11,11 @@ $(() => {
 });
 
 function renderGrid(grid, currRow, currColumn) {
-  // $(document.body).empty();
   for (let row = 0; row < grid.length; row++) {
     for (let column = 0; column < grid.length; column++) {
       const cell = grid[row][column];
       const isCurrent = currRow === row && currColumn === column;
       modifyCellElemnt(cell, isCurrent);
-      // const $div = createCellElement(cell, isCurrent);
-      // $(document.body).append($div);
     }
   }
 }
@@ -40,28 +37,16 @@ function modifyCellElemnt(cell, isCurrent) {
   return $div;
 }
 
-function createCellElement(cell, isCurrent) {
+function createCellElement(cell) {
   const cellSize = 20;
   const $div = $('<div>');
-  $div.attr('id', `cell-${cell.rowIndex}-${cell.columnIndex}`);
+  const cellId = `cell-${cell.rowIndex}-${cell.columnIndex}`;
+  $div.attr('id', cellId);
   $div.addClass('cell');
-  // positions cell
   $div.css('left', cell.columnIndex * cellSize);
   $div.css('top', cell.rowIndex * cellSize);
   $div.css('width', cellSize);
   $div.css('height', cellSize);
-  // basic style
-  $div.addClass(cell.wasVisited ? 'visited' : '');
-  if (isCurrent) {
-    $div.addClass('current');
-  } else {
-    $div.removeClass('current');
-  }
-  // hides walls
-  if (!cell.topWall) $div.addClass('no-top');
-  if (!cell.bottomWall) $div.addClass('no-bottom');
-  if (!cell.leftWall) $div.addClass('no-left');
-  if (!cell.rightWall) $div.addClass('no-right');
   return $div;
 }
 
