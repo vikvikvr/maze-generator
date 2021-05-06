@@ -58,26 +58,24 @@ function sleep(ms) {
 
 async function makeMaze(grid, renderCallback) {
   let currentCell = grid[0][0];
-  let stack = [];
-  let currRow = (currCol = 0);
+  let pathTaken = [];
+  let currentPosition = [0, 0];
   currentCell.wasVisited = true;
-  stack.push(currentCell);
-  while (stack.length) {
-    currentCell = stack.pop();
-    currRow = currentCell.rowIndex;
-    currCol = currentCell.columnIndex;
+  pathTaken.push(currentCell);
+  while (pathTaken.length) {
+    currentCell = pathTaken.pop();
+    currentPosition = [currentCell.rowIndex, currentCell.columnIndex];
     let unvisitedNeighbours = getUnvisitedNeighbours(currentCell, grid);
     if (unvisitedNeighbours.length) {
-      stack.push(currentCell);
+      pathTaken.push(currentCell);
       let neighbourCell = pickRandomElementFromArray(unvisitedNeighbours);
       removeWallsBetweenCells(currentCell, neighbourCell);
       neighbourCell.wasVisited = true;
-      currRow = neighbourCell.rowIndex;
-      currCol = neighbourCell.columnIndex;
-      stack.push(neighbourCell);
+      currentPosition = [neighbourCell.rowIndex, neighbourCell.columnIndex];
+      pathTaken.push(neighbourCell);
     }
     await sleep(20);
-    if (renderCallback) renderCallback(currRow, currCol);
+    if (renderCallback) renderCallback(...currentPosition);
   }
 }
 
