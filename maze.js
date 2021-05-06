@@ -10,13 +10,16 @@ $(async () => {
 });
 
 function renderGrid(grid, currRow, currColumn) {
-  for (let row = 0; row < grid.length; row++) {
-    for (let column = 0; column < grid.length; column++) {
-      const cell = grid[row][column];
-      const isCurrent = currRow === row && currColumn === column;
-      modifyCellElemnt(cell, isCurrent);
+  for (let row = currRow - 3; row < currRow + 3; row++) {
+    for (let column = currColumn - 3; column < currColumn + 3; column++) {
+      try {
+        const cell = grid[row][column];
+        modifyCellElemnt(cell, false);
+      } catch (error) {}
     }
   }
+  const cell = grid[currRow][currColumn];
+  modifyCellElemnt(cell, true);
 }
 
 function modifyCellElemnt(cell, isCurrent) {
