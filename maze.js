@@ -81,26 +81,26 @@ async function makeMaze(grid, renderCallback) {
 
 function getUnvisitedNeighbours(currentCell, grid) {
   const { rowIndex, columnIndex } = currentCell;
+  const topExists = rowIndex > 0;
+  const bottomExists = rowIndex + 1 < grid.length;
+  const leftExists = columnIndex > 0;
+  const rightExists = columnIndex + 1 < grid.length;
   const neighbours = [];
 
-  if (rowIndex > 0) {
-    const topNeighbour = grid[rowIndex - 1][columnIndex];
-    neighbours.push(topNeighbour);
+  if (topExists) {
+    neighbours.push(grid[rowIndex - 1][columnIndex]);
   }
 
-  if (rowIndex + 1 < grid.length) {
-    const bottomNeighbour = grid[rowIndex + 1][columnIndex];
-    neighbours.push(bottomNeighbour);
+  if (bottomExists) {
+    neighbours.push(grid[rowIndex + 1][columnIndex]);
   }
 
-  if (columnIndex > 0) {
-    const leftNeighbour = grid[rowIndex][columnIndex - 1];
-    neighbours.push(leftNeighbour);
+  if (leftExists) {
+    neighbours.push(grid[rowIndex][columnIndex - 1]);
   }
 
-  if (columnIndex + 1 < grid.length) {
-    const rightNeighbour = grid[rowIndex][columnIndex + 1];
-    neighbours.push(rightNeighbour);
+  if (rightExists) {
+    neighbours.push(grid[rowIndex][columnIndex + 1]);
   }
 
   return neighbours.filter((cell) => !cell.wasVisited);
