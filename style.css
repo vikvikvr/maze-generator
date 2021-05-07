@@ -26,11 +26,13 @@ body {
 }
 
 .visited {
-  background-color: dodgerblue;
+  background: url(https://picsum.photos/600/600);
+  background-size: 600px 600px;
 }
 
 .current {
-  background-color: darkslateblue;
+  background: rgba(0, 0, 0, 0.5) url(https://picsum.photos/600/600);
+  background-blend-mode: darken;
 }
 
 .top {

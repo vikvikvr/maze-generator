@@ -45,12 +45,15 @@ function modifyCellElemnt(cell, isCurrent) {
 
 function createCellElement(cell) {
   const cellSize = 20;
+  const left = cell.columnIndex * cellSize;
+  const top = cell.rowIndex * cellSize;
   const $div = $('<div>');
   $div.addClass('cell');
-  $div.css('left', cell.columnIndex * cellSize);
-  $div.css('top', cell.rowIndex * cellSize);
+  $div.css('left', left);
+  $div.css('top', top);
   $div.css('width', cellSize);
   $div.css('height', cellSize);
+  $div.css('background-position', `${-left}px ${-top}px`);
   return $div;
 }
 
