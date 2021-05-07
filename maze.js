@@ -3,7 +3,9 @@ console.log('Dave says hello');
 
 let imageUrl = '';
 
-$(async () => {
+$(start);
+
+async function start() {
   const gridSize = 30;
   await sleep(500);
   $('#maze').css('width', gridSize * 20);
@@ -23,7 +25,7 @@ $(async () => {
     grid = createGridStructure(gridSize);
     await makeMaze(grid, renderGrid);
   }
-});
+}
 
 function renderGrid(grid, currRow, currColumn) {
   for (let row = currRow - 3; row < currRow + 3; row++) {
@@ -49,16 +51,14 @@ function modifyCellElemnt(cell, isCurrent) {
     $div.css('background', `rgba(0, 0, 0, 0) url(${imageUrl}`);
     $div.css('background-position', `${-left}px ${-top}px`);
   }
-  // $div.addClass(cell.wasVisited ? 'visited' : '');
   if (isCurrent) {
     $div.css('background', `rgba(0, 0, 0, 0.5) url(${imageUrl}`);
     $div.css('background-position', `${-left}px ${-top}px`);
-    // $div.addClass('current');
   }
-  // else {
-  //   $div.removeClass('current');
-  // }
-  // hides walls
+  modifyCellWalls($div, cell);
+}
+
+function modifyCellWalls($div, cell) {
   if (cell.topWall) $div.addClass('top');
   else $div.removeClass('top');
   if (cell.bottomWall) $div.addClass('bottom');
@@ -79,7 +79,7 @@ function createCellElement(cell) {
   $div.css('top', top);
   $div.css('width', cellSize);
   $div.css('height', cellSize);
-  $div.css('background', `rgba(0, 0, 0, 0.5) url(${imageUrl}`);
+  $div.css('background', `rgba(0, 0, 0, 0.7) url(${imageUrl}`);
   $div.css('background-blend-mode', 'darken');
   $div.css('background-position', `${-left}px ${-top}px`);
   // background: ;
