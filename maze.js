@@ -23,6 +23,7 @@ function renderGrid(grid, currRow, currColumn) {
 }
 
 function modifyCellElemnt(cell, isCurrent) {
+  if (!cell.wasVisited) return;
   const { $div } = cell;
   // basic style
   $div.addClass(cell.wasVisited ? 'visited' : '');
@@ -32,11 +33,14 @@ function modifyCellElemnt(cell, isCurrent) {
     $div.removeClass('current');
   }
   // hides walls
-  if (!cell.topWall) $div.addClass('no-top');
-  if (!cell.bottomWall) $div.addClass('no-bottom');
-  if (!cell.leftWall) $div.addClass('no-left');
-  if (!cell.rightWall) $div.addClass('no-right');
-  return $div;
+  if (cell.topWall) $div.addClass('top');
+  else $div.removeClass('top');
+  if (cell.bottomWall) $div.addClass('bottom');
+  else $div.removeClass('bottom');
+  if (cell.leftWall) $div.addClass('left');
+  else $div.removeClass('left');
+  if (cell.rightWall) $div.addClass('right');
+  else $div.removeClass('right');
 }
 
 function createCellElement(cell) {

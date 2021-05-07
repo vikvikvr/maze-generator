@@ -1,7 +1,7 @@
 .cell {
-  position: fixed;
-  background-color: cornflowerblue;
-  border: 1px solid black;
+  position: absolute;
+  background-color: transparent;
+  border: 1px solid transparent;
 }
 
 .visited {
@@ -12,18 +12,18 @@
   background-color: darkslateblue;
 }
 
-.no-top {
-  border-top: 1px solid transparent;
+.top {
+  border-top: 1px solid black;
 }
 
-.no-bottom {
-  border-bottom: 1px solid transparent;
+.bottom {
+  border-bottom: 1px solid black;
 }
 
-.no-right {
-  border-right: 1px solid transparent;
+.right {
+  border-right: 1px solid black;
 }
 
-.no-left {
-  border-left: 1px solid transparent;
+.left {
+  border-left: 1px solid black;
 }
