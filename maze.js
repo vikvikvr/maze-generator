@@ -32,15 +32,15 @@ function renderGrid(grid, currRow, currColumn) {
     for (let column = currColumn - 3; column < currColumn + 3; column++) {
       try {
         const cell = grid[row][column];
-        modifyCellElemnt(cell, false);
+        modifyCellElement(cell, false);
       } catch (error) {}
     }
   }
   const cell = grid[currRow][currColumn];
-  modifyCellElemnt(cell, true);
+  modifyCellElement(cell, true);
 }
 
-function modifyCellElemnt(cell, isCurrent) {
+function modifyCellElement(cell, isCurrent) {
   if (!cell.wasVisited) return;
   const { $div } = cell;
   modifyCellBackground($div, cell, isCurrent);
