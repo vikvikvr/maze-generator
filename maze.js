@@ -150,12 +150,13 @@ function Cell(columnIndex = 0, rowIndex = 0) {
 
 function createGridStructure(size) {
   let grid = [];
+  const container = $('#maze');
   for (let rowIndex = 0; rowIndex < size; rowIndex++) {
     let tempRow = [];
     for (let columnIndex = 0; columnIndex < size; columnIndex++) {
       const cell = new Cell(columnIndex, rowIndex);
       const $div = createCellElement(cell);
-      $(document.body).append($div);
+      container.append($div);
       cell.$div = $div;
       tempRow.push(cell);
     }

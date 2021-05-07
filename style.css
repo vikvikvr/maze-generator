@@ -1,3 +1,24 @@
+body {
+  background: linear-gradient(
+    42deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(78, 22, 117, 1) 47%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#maze {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+}
+
 .cell {
   position: absolute;
   background-color: transparent;
