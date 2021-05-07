@@ -2,11 +2,13 @@ console.log('kostas says hello');
 console.log('Dave says hello');
 
 $(async () => {
+  const gridSize = 30;
   await sleep(500);
-  let grid = createGridStructure(30);
-  makeMaze(grid, (currRow, currCol) => {
-    renderGrid(grid, currRow, currCol);
-  });
+  let grid;
+  while (true) {
+    grid = createGridStructure(gridSize);
+    await makeMaze(grid, renderGrid);
+  }
 });
 
 function renderGrid(grid, currRow, currColumn) {
@@ -64,27 +66,30 @@ function sleep(ms) {
 }
 
 async function makeMaze(grid, renderCallback) {
-  const center = Math.floor(grid.length / 2);
-  let currentCell = grid[center][center];
-  let pathTaken = [];
-  let currentPosition = [0, 0];
-  currentCell.wasVisited = true;
-  pathTaken.push(currentCell);
-  while (pathTaken.length) {
-    currentCell = pathTaken.pop();
-    currentPosition = [currentCell.rowIndex, currentCell.columnIndex];
-    let unvisitedNeighbours = getUnvisitedNeighbours(currentCell, grid);
-    if (unvisitedNeighbours.length) {
-      pathTaken.push(currentCell);
-      let neighbourCell = pickRandomElementFromArray(unvisitedNeighbours);
-      removeWallsBetweenCells(currentCell, neighbourCell);
-      neighbourCell.wasVisited = true;
-      currentPosition = [neighbourCell.rowIndex, neighbourCell.columnIndex];
-      pathTaken.push(neighbourCell);
+  return new Promise(async (resolve) => {
+    const center = Math.floor(grid.length / 2);
+    let currentCell = grid[center][center];
+    let pathTaken = [];
+    let currentPosition = [0, 0];
+    currentCell.wasVisited = true;
+    pathTaken.push(currentCell);
+    while (pathTaken.length) {
+      currentCell = pathTaken.pop();
+      currentPosition = [currentCell.rowIndex, currentCell.columnIndex];
+      let unvisitedNeighbours = getUnvisitedNeighbours(currentCell, grid);
+      if (unvisitedNeighbours.length) {
+        pathTaken.push(currentCell);
+        let neighbourCell = pickRandomElementFromArray(unvisitedNeighbours);
+        removeWallsBetweenCells(currentCell, neighbourCell);
+        neighbourCell.wasVisited = true;
+        currentPosition = [neighbourCell.rowIndex, neighbourCell.columnIndex];
+        pathTaken.push(neighbourCell);
+      }
+      await sleep(10);
+      if (renderCallback) renderCallback(grid, ...currentPosition);
     }
-    await sleep(20);
-    if (renderCallback) renderCallback(...currentPosition);
-  }
+    resolve();
+  });
 }
 
 function getUnvisitedNeighbours(currentCell, grid) {
@@ -154,6 +159,7 @@ function Cell(columnIndex = 0, rowIndex = 0) {
 function createGridStructure(size) {
   let grid = [];
   const container = $('#maze');
+  container.empty();
   for (let rowIndex = 0; rowIndex < size; rowIndex++) {
     let tempRow = [];
     for (let columnIndex = 0; columnIndex < size; columnIndex++) {
