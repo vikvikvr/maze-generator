@@ -43,10 +43,14 @@ function renderGrid(grid, currRow, currColumn) {
 function modifyCellElemnt(cell, isCurrent) {
   if (!cell.wasVisited) return;
   const { $div } = cell;
+  modifyCellBackground($div, cell, isCurrent);
+  modifyCellWalls($div, cell);
+}
+
+function modifyCellBackground($div, cell, isCurrent) {
   const cellSize = 20;
   const left = cell.columnIndex * cellSize;
   const top = cell.rowIndex * cellSize;
-  // basic style
   if (cell.wasVisited) {
     $div.css('background', `rgba(0, 0, 0, 0) url(${imageUrl}`);
     $div.css('background-position', `${-left}px ${-top}px`);
@@ -55,7 +59,6 @@ function modifyCellElemnt(cell, isCurrent) {
     $div.css('background', `rgba(0, 0, 0, 0.5) url(${imageUrl}`);
     $div.css('background-position', `${-left}px ${-top}px`);
   }
-  modifyCellWalls($div, cell);
 }
 
 function modifyCellWalls($div, cell) {
