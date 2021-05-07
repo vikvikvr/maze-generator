@@ -12,6 +12,15 @@ body {
   position: fixed;
 }
 
+#loader {
+  height: 10px;
+  border-radius: 10px;
+  background-color: #00000078;
+  width: 600px;
+  position: fixed;
+  top: 93%;
+}
+
 .cell {
   position: absolute;
   background-color: transparent;

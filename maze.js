@@ -20,7 +20,6 @@ async function start() {
       `https://picsum.photos/seed/${seed}/1920/1080?blur=8`
     );
     $(document.body).css('background', `url(${response2.url})`);
-    console.log(response2.url);
     imageUrl = response.url;
     grid = createGridStructure(gridSize);
     await makeMaze(grid, renderGrid);
@@ -36,6 +35,8 @@ function renderGrid(grid, currRow, currColumn) {
       } catch (error) {}
     }
   }
+  const completion = visitedPercent(grid);
+  $('#loader').css('width', `${600 * completion}`);
   const cell = grid[currRow][currColumn];
   modifyCellElement(cell, true);
 }
@@ -118,6 +119,16 @@ async function makeMaze(grid, renderCallback) {
     }
     resolve();
   });
+}
+
+function visitedPercent(grid) {
+  let visitedCount = 0;
+  for (let row = 0; row < grid.length; row++) {
+    for (let column = 0; column < grid.length; column++) {
+      if (grid[row][column].wasVisited) visitedCount++;
+    }
+  }
+  return visitedCount / grid.length ** 2;
 }
 
 function getUnvisitedNeighbours(currentCell, grid) {
