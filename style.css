@@ -10,26 +10,12 @@ body {
 
 #maze {
   position: fixed;
-  width: 600px;
-  height: 600px;
 }
 
 .cell {
   position: absolute;
   background-color: transparent;
   border: 1px solid transparent;
-  background: rgba(0, 0, 0, 0.8) url(https://picsum.photos/600/600);
-  background-blend-mode: darken;
-}
-
-.visited {
-  background: url(https://picsum.photos/600/600);
-  background-size: 600px 600px;
-}
-
-.current {
-  background: rgba(0, 0, 0, 0.5) url(https://picsum.photos/600/600);
-  background-blend-mode: darken;
 }
 
 .top {

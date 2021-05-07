@@ -1,11 +1,25 @@
 console.log('kostas says hello');
 console.log('Dave says hello');
 
+let imageUrl = '';
+
 $(async () => {
   const gridSize = 30;
   await sleep(500);
+  $('#maze').css('width', gridSize * 20);
+  $('#maze').css('height', gridSize * 20);
   let grid;
   while (true) {
+    const seed = Date.now();
+    let response = await fetch(
+      `https://picsum.photos/seed/${seed}/${gridSize * 20}/${gridSize * 20}`
+    );
+    let response2 = await fetch(
+      `https://picsum.photos/seed/${seed}/1920/1080?blur=8`
+    );
+    $(document.body).css('background', `url(${response2.url})`);
+    console.log(response2.url);
+    imageUrl = response.url;
     grid = createGridStructure(gridSize);
     await makeMaze(grid, renderGrid);
   }
@@ -27,8 +41,15 @@ function renderGrid(grid, currRow, currColumn) {
 function modifyCellElemnt(cell, isCurrent) {
   if (!cell.wasVisited) return;
   const { $div } = cell;
+  const cellSize = 20;
+  const left = cell.columnIndex * cellSize;
+  const top = cell.rowIndex * cellSize;
   // basic style
-  $div.addClass(cell.wasVisited ? 'visited' : '');
+  if (cell.wasVisited) {
+    $div.css('background', `rgba(0, 0, 0, 0) url(${imageUrl}`);
+    $div.css('background-position', `${-left}px ${-top}px`);
+  }
+  // $div.addClass(cell.wasVisited ? 'visited' : '');
   if (isCurrent) {
     $div.addClass('current');
   } else {
@@ -55,7 +76,11 @@ function createCellElement(cell) {
   $div.css('top', top);
   $div.css('width', cellSize);
   $div.css('height', cellSize);
+  $div.css('background', `rgba(0, 0, 0, 0.5) url(${imageUrl}`);
+  $div.css('background-blend-mode', 'darken');
   $div.css('background-position', `${-left}px ${-top}px`);
+  // background: ;
+  // background-blend-mode: darken;
   return $div;
 }
 
