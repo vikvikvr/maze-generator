@@ -51,10 +51,13 @@ function modifyCellElemnt(cell, isCurrent) {
   }
   // $div.addClass(cell.wasVisited ? 'visited' : '');
   if (isCurrent) {
-    $div.addClass('current');
-  } else {
-    $div.removeClass('current');
+    $div.css('background', `rgba(0, 0, 0, 0.5) url(${imageUrl}`);
+    $div.css('background-position', `${-left}px ${-top}px`);
+    // $div.addClass('current');
   }
+  // else {
+  //   $div.removeClass('current');
+  // }
   // hides walls
   if (cell.topWall) $div.addClass('top');
   else $div.removeClass('top');
