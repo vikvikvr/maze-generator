@@ -59,14 +59,11 @@ function modifyCellElemnt(cell, isCurrent) {
 }
 
 function modifyCellWalls($div, cell) {
-  if (cell.topWall) $div.addClass('top');
-  else $div.removeClass('top');
-  if (cell.bottomWall) $div.addClass('bottom');
-  else $div.removeClass('bottom');
-  if (cell.leftWall) $div.addClass('left');
-  else $div.removeClass('left');
-  if (cell.rightWall) $div.addClass('right');
-  else $div.removeClass('right');
+  ['top', 'bottom', 'left', 'right'].forEach((className) => {
+    const propName = className + 'Wall';
+    if (cell[propName]) $div.addClass(className);
+    else $div.removeClass(className);
+  });
 }
 
 function createCellElement(cell) {
