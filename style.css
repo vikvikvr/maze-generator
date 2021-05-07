@@ -23,6 +23,8 @@ body {
   position: absolute;
   background-color: transparent;
   border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.8) url(https://picsum.photos/600/600);
+  background-blend-mode: darken;
 }
 
 .visited {
