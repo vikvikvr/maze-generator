@@ -57,7 +57,8 @@ function sleep(ms) {
 }
 
 async function makeMaze(grid, renderCallback) {
-  let currentCell = grid[0][0];
+  const center = Math.floor(grid.length / 2);
+  let currentCell = grid[center][center];
   let pathTaken = [];
   let currentPosition = [0, 0];
   currentCell.wasVisited = true;
