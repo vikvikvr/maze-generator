@@ -13,17 +13,17 @@
 }
 
 .no-top {
-  border-top: none;
+  border-top: 1px solid transparent;
 }
 
 .no-bottom {
-  border-bottom: none;
+  border-bottom: 1px solid transparent;
 }
 
 .no-right {
-  border-right: none;
+  border-right: 1px solid transparent;
 }
 
 .no-left {
-  border-left: none;
+  border-left: 1px solid transparent;
 }
