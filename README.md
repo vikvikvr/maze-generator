@@ -4,6 +4,6 @@
 
 Watch the maze taking shape [here](https://vikvikvr.github.io/maze-generator/)!
 
-![Maze screenshot](https://media.giphy.com/media/PGWxGcwxiGSHQ7XwpF/giphy.gif)
+![Maze screenshot](https://media.giphy.com/media/PGWxGcwxiGSHQ7XwpF/source.gif)
 
 Using [this algorithm](https://en.wikipedia.org/wiki/Maze_generation_algorithm).
