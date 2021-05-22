@@ -35,8 +35,6 @@ function renderGrid(grid, currRow, currColumn) {
       } catch (error) {}
     }
   }
-  const completion = visitedPercent(grid);
-  $('#loader').css('width', `${600 * completion}`);
   const cell = grid[currRow][currColumn];
   modifyCellElement(cell, true);
 }
