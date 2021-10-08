@@ -1,0 +1,21 @@
+.cell {
+  position: absolute;
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.topWall {
+  border-top: 1px solid black;
+}
+
+.bottomWall {
+  border-bottom: 1px solid black;
+}
+
+.rightWall {
+  border-right: 1px solid black;
+}
+
+.leftWall {
+  border-left: 1px solid black;
+}
