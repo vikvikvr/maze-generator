@@ -1,6 +1,10 @@
-import { MazeStatus, ReducerHandler } from 'types';
+import {
+  MazeStatus,
+  ReducerHandler as ActionHandler,
+  ThunkHandler,
+} from 'types';
 
-export const startMaze: ReducerHandler<'startMaze'> = (state, action) => ({
+export const startMaze: ActionHandler<'startMaze'> = (state, action) => ({
   ...state,
   maze: {
     ...state.maze,
@@ -14,7 +18,7 @@ export const startMaze: ReducerHandler<'startMaze'> = (state, action) => ({
   },
 });
 
-export const updateMaze: ReducerHandler<'updateMaze'> = (state, action) => ({
+export const updateMaze: ActionHandler<'updateMaze'> = (state, action) => ({
   ...state,
   maze: {
     grid: action.payload.grid,
@@ -26,7 +30,7 @@ export const updateMaze: ReducerHandler<'updateMaze'> = (state, action) => ({
   },
 });
 
-export const completeMaze: ReducerHandler<'completeMaze'> = (state) => ({
+export const completeMaze: ActionHandler<'completeMaze'> = (state) => ({
   ...state,
   maze: {
     ...state.maze,
@@ -34,8 +38,10 @@ export const completeMaze: ReducerHandler<'completeMaze'> = (state) => ({
   },
 });
 
-// TODO: improve typing and remove any
-export const setImage = (state: any, action: any) => ({
+export const setImage: ThunkHandler<'fetchImage', 'success'> = (
+  state,
+  action,
+) => ({
   ...state,
   ui: {
     ...state.ui,
@@ -45,7 +51,7 @@ export const setImage = (state: any, action: any) => ({
   },
 });
 
-export const updateSettings: ReducerHandler<'updateSettings'> = (
+export const updateSettings: ActionHandler<'updateSettings'> = (
   state,
   action,
 ) => ({

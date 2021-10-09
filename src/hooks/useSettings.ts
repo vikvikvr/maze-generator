@@ -22,13 +22,6 @@ export function useSettings() {
     [dispatch, settings],
   );
 
-  const updateSettings = useCallback(
-    (newSettings: AppSettings) => {
-      dispatch(actions.updateSettings(newSettings));
-    },
-    [dispatch],
-  );
-
   return {
     settings,
     onChange,

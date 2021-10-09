@@ -1,5 +1,5 @@
 import { MazeGrid, MazePosition, MazeStatus } from './maze';
-import * as actions from 'store/actions';
+import { actions, thunks } from 'store';
 
 export type MazeState = {
   grid: MazeGrid;
@@ -24,6 +24,13 @@ export type StoreState = {
   ui: UiState;
   settings: AppSettings;
 };
+
+type Thunks = typeof thunks;
+
+export type ThunkHandler<
+  A extends keyof Thunks,
+  T extends 'failure' | 'success' | 'request',
+> = (state: StoreState, action: ReturnType<typeof thunks[A][T]>) => StoreState;
 
 export type ReducerHandler<A extends keyof typeof actions> = (
   state: StoreState,
