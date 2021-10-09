@@ -20,7 +20,7 @@ export const App: FC = () => {
   const { fetchImage, image } = useUi();
 
   const appStyle: CSSProperties = {
-    background: `url(${image.blurred})`,
+    backgroundImage: `url(${image.blurred})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
