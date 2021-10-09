@@ -11,7 +11,7 @@ export function useSettings() {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const key = e.target.name as keyof AppSettings;
-      console.log(e.target.name, typeof e.target.value);
+
       dispatch(
         actions.updateSettings({
           ...settings,

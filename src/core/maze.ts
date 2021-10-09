@@ -1,34 +1,31 @@
-import {
-  MazeGrid,
-  MazeStatus,
-  SolveMazeOptions,
-  UpdateMazePayload,
-} from 'types';
-import { pickRandomElementFromArray, sleep } from 'utils';
+import { MazeGrid, MazePosition } from 'types';
+import { pickRandomElementFromArray } from 'utils';
 import { MazeCell } from './MazeCell';
 
-/**
- * Solves a maze grid asynchronously.
- */
-export async function solveMaze(
-  options: SolveMazeOptions,
-  onUpdate: (options: UpdateMazePayload) => void,
-  onDone: () => void,
-): Promise<void> {
-  const { grid: storeGrid, stepDelay } = options;
+type MazeStep = {
+  grid: MazeGrid;
+  currentPosition: MazePosition;
+  visitedCells: MazeCell[];
+};
 
-  const grid = JSON.parse(JSON.stringify(storeGrid));
+export function solveMazeStep(step: MazeStep): MazeStep {
+  const {
+    grid: oldGrid,
+    currentPosition: oldCurrentPosition,
+    visitedCells: oldVisitedCells,
+  } = JSON.parse(JSON.stringify(step)) as MazeStep;
 
-  const center = Math.floor(grid.length / 2);
-  // TODO: make starting cell random on the border of the maze
-  let currentCell = grid[center][center];
+  const grid = oldGrid;
 
-  let currentPosition = [currentCell.rowIndex, currentCell.columnIndex];
+  let currentPosition = [oldCurrentPosition.row, oldCurrentPosition.column];
 
-  const visitedCells = [currentCell];
+  let currentCell = grid[currentPosition[0]][currentPosition[1]];
+
   currentCell.wasVisited = true;
 
-  while (visitedCells.length) {
+  const visitedCells = [...oldVisitedCells];
+
+  if (visitedCells.length) {
     currentCell = visitedCells.pop() as MazeCell;
     currentPosition = [currentCell.rowIndex, currentCell.columnIndex];
     const unvisitedNeighbours = getUnvisitedNeighbours(currentCell, grid);
@@ -41,22 +38,16 @@ export async function solveMaze(
       currentPosition = [neighbourCell.rowIndex, neighbourCell.columnIndex];
       visitedCells.push(neighbourCell);
     }
-
-    if (stepDelay) {
-      await sleep(stepDelay);
-    }
-
-    onUpdate({
-      grid,
-      currentPosition: {
-        row: currentPosition[0],
-        column: currentPosition[1],
-      },
-      status: MazeStatus.SOLVING,
-    });
   }
 
-  onDone();
+  return {
+    currentPosition: {
+      row: currentPosition[0],
+      column: currentPosition[1],
+    },
+    grid,
+    visitedCells,
+  };
 }
 
 /**

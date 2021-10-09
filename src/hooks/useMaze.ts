@@ -1,49 +1,77 @@
-import { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { createMazeGrid, solveMaze } from 'core';
+import { useEffect, useState } from 'react';
+import { createMazeGrid, solveMazeStep } from 'core';
 import { StartMazeOptions } from 'types/options';
-import { getMaze, actions } from 'store';
-import { UpdateMazePayload } from 'types/payloads';
+import { MazeGrid } from 'types';
+import { MazeCell } from 'core/MazeCell';
+
+const initialState = {
+  currentPosition: {
+    row: 0,
+    column: 0,
+  },
+  grid: [] as MazeGrid,
+  visitedCells: [] as MazeCell[],
+  started: false,
+};
+
+let state = initialState;
+
+let intervalId: any;
+
+// TODO: remove redux logic for maze
 
 /**
  * Hook to solve the maze.
  */
 export function useMaze() {
-  const { grid, status, currentPosition } = useSelector(getMaze());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [step, setStep] = useState(0);
 
-  const dispatch = useDispatch();
+  const update = () => {
+    if (!state.visitedCells.length) {
+      clearInterval(intervalId);
+    }
 
-  const onUpdate = useCallback(
-    (payload: UpdateMazePayload) => {
-      dispatch(actions.updateMaze(payload));
+    if (state.grid.length) {
+      let mazeStep = solveMazeStep(state);
+
+      state = {
+        ...state,
+        ...mazeStep,
+      };
+      setStep((step) => step + 1);
+    } else {
+      console.log('else', state);
+    }
+  };
+
+  const start = ({ gridSize, stepDelay }: StartMazeOptions) => {
+    const newGrid = createMazeGrid(gridSize);
+
+    newGrid[0][0].wasVisited = true;
+
+    state = {
+      ...state,
+      grid: newGrid,
+      visitedCells: [newGrid[0][0]],
+      started: true,
+    };
+    setStep((step) => step + 1);
+
+    intervalId = setInterval(() => update(), stepDelay);
+  };
+
+  useEffect(
+    () => () => {
+      clearInterval(intervalId);
+      state = initialState;
     },
-    [dispatch],
-  );
-
-  const onDone = useCallback(() => {
-    dispatch(actions.completeMaze());
-  }, [dispatch]);
-
-  const reset = useCallback(() => {
-    dispatch(actions.resetMaze());
-  }, [dispatch]);
-
-  const start = useCallback(
-    ({ gridSize, stepDelay }: StartMazeOptions) => {
-      const newGrid = createMazeGrid(gridSize);
-
-      dispatch(actions.startMaze({ grid: newGrid }));
-
-      solveMaze({ grid: newGrid, stepDelay }, onUpdate, onDone);
-    },
-    [dispatch, onDone, onUpdate],
+    [],
   );
 
   return {
-    grid,
-    status,
-    currentPosition,
+    grid: state.grid,
+    currentPosition: state.currentPosition,
     start,
-    reset,
   };
 }

@@ -16,7 +16,7 @@ export const DEFAULT_STATE: StoreState = {
     },
   },
   settings: {
-    gridSize: 30,
-    stepDelay: 10,
+    gridSize: 15,
+    stepDelay: 0,
   },
 };

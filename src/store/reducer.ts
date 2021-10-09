@@ -12,4 +12,5 @@ export const reducer = createReducer<StoreState, ActionTypes>(DEFAULT_STATE)
   .handleAction(actions.updateMaze, handlers.updateMaze)
   .handleAction(actions.completeMaze, handlers.completeMaze)
   .handleAction(actions.updateSettings, handlers.updateSettings)
+  .handleAction(actions.resetMaze, handlers.resetMaze)
   .handleAction(thunks.fetchImage.success, handlers.setImage);

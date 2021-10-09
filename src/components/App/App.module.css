@@ -10,3 +10,7 @@ body {
   display: grid;
   place-content: center;
 }
+
+button {
+  padding: 0.5rem;
+}

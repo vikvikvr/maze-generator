@@ -1,15 +1,11 @@
 import { FC, CSSProperties, useCallback } from 'react';
 import { Maze, Settings } from 'components';
-import { useMaze, useSettings, useUi } from 'hooks';
+import { useUi } from 'hooks';
 import classes from './App.module.css';
 import { Switch, Route, useHistory } from 'react-router-dom';
 
 export const App: FC = () => {
-  const { start } = useMaze();
-
   const history = useHistory();
-
-  const { settings } = useSettings();
 
   const { fetchImage, image } = useUi();
 
@@ -24,9 +20,9 @@ export const App: FC = () => {
 
   const handleStart = useCallback(() => {
     fetchImage();
-    start(settings);
+    // start(settings);
     history.push('/maze');
-  }, [fetchImage, history, settings, start]);
+  }, [fetchImage, history]);
 
   return (
     <div id="app" className={classes.app} style={appStyle}>
