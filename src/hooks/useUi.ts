@@ -1,11 +1,13 @@
-import { MAZE_OPTIONS } from 'components/App';
 import { CELL_SIZE } from 'components/Cell';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getImage, thunks } from 'store';
+import { useSettings } from './useSettings';
 
 export function useUi() {
   const dispatch = useDispatch();
+
+  const { settings } = useSettings();
 
   const image = useSelector(getImage());
 
@@ -13,10 +15,10 @@ export function useUi() {
     dispatch(
       thunks.fetchImage.request({
         cellSize: CELL_SIZE,
-        gridSize: MAZE_OPTIONS.gridSize,
+        gridSize: settings.gridSize,
       }),
     );
-  }, [dispatch]);
+  }, [dispatch, settings.gridSize]);
 
   return {
     image,

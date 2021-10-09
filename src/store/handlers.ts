@@ -34,6 +34,7 @@ export const completeMaze: ReducerHandler<'completeMaze'> = (state) => ({
   },
 });
 
+// TODO: improve typing and remove any
 export const setImage = (state: any, action: any) => ({
   ...state,
   ui: {
@@ -41,5 +42,15 @@ export const setImage = (state: any, action: any) => ({
     image: {
       ...action.payload,
     },
+  },
+});
+
+export const updateSettings: ReducerHandler<'updateSettings'> = (
+  state,
+  action,
+) => ({
+  ...state,
+  settings: {
+    ...action.payload,
   },
 });

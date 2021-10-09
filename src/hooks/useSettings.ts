@@ -1,0 +1,36 @@
+import { ChangeEvent, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getSettings, actions } from 'store';
+import { AppSettings } from 'types';
+
+export function useSettings() {
+  const dispatch = useDispatch();
+
+  const settings = useSelector(getSettings());
+
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const key = e.target.name as keyof AppSettings;
+      console.log(e.target.name, typeof e.target.value);
+      dispatch(
+        actions.updateSettings({
+          ...settings,
+          [key]: parseInt(e.target.value),
+        }),
+      );
+    },
+    [dispatch, settings],
+  );
+
+  const updateSettings = useCallback(
+    (newSettings: AppSettings) => {
+      dispatch(actions.updateSettings(newSettings));
+    },
+    [dispatch],
+  );
+
+  return {
+    settings,
+    onChange,
+  };
+}

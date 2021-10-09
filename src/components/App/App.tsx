@@ -1,21 +1,13 @@
 import { FC, CSSProperties, useCallback } from 'react';
-import { Maze } from 'components';
-import { useMaze, useUi } from 'hooks';
-import { MazeStatus, UseMazeOptions } from 'types';
+import { Maze, Settings } from 'components';
+import { useMaze, useSettings, useUi } from 'hooks';
+import { MazeStatus } from 'types';
 import classes from './App.module.css';
-
-// TODO: add UI elements to customize maze options
-export const MAZE_OPTIONS: UseMazeOptions = {
-  gridSize: 30,
-  stepDelay: 10,
-  startingPosition: {
-    row: 5,
-    column: 6,
-  },
-};
 
 export const App: FC = () => {
   const { status, start } = useMaze();
+
+  const { settings } = useSettings();
 
   const { fetchImage, image } = useUi();
 
@@ -28,13 +20,14 @@ export const App: FC = () => {
 
   const handleStart = useCallback(() => {
     fetchImage();
-    start(MAZE_OPTIONS);
-  }, [fetchImage, start]);
+    start(settings);
+  }, [fetchImage, settings, start]);
 
   return (
     <div id="app" className={classes.app} style={appStyle}>
       {status === MazeStatus.UNSOLVED ? (
         <div>
+          <Settings />
           <button onClick={handleStart}>start</button>
           <div>{image.blurred}</div>
         </div>

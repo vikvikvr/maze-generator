@@ -15,6 +15,7 @@ export async function solveMaze({
   const grid = JSON.parse(JSON.stringify(storeGrid));
 
   const center = Math.floor(grid.length / 2);
+  // TODO: make starting cell random on the border of the maze
   let currentCell = grid[center][center];
 
   if (startingPosition) {

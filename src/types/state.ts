@@ -14,9 +14,15 @@ export type UiState = {
   };
 };
 
+export type AppSettings = {
+  gridSize: number;
+  stepDelay: number;
+};
+
 export type StoreState = {
   maze: MazeState;
   ui: UiState;
+  settings: AppSettings;
 };
 
 export type ReducerHandler<A extends keyof typeof actions> = (
