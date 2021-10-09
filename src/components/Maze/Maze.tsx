@@ -1,4 +1,4 @@
-import { useMemo, FC, CSSProperties } from 'react';
+import { useMemo, FC, CSSProperties, useEffect } from 'react';
 import classes from './Maze.module.css';
 import { Cell, CELL_SIZE } from 'components/Cell';
 import { useMaze, useUi } from 'hooks';
@@ -10,9 +10,15 @@ function isCurrent(cell: MazeCell, { column, row }: MazePosition) {
 }
 
 export const Maze: FC = () => {
-  const { grid, currentPosition } = useMaze();
+  const { grid, currentPosition, reset } = useMaze();
 
   const { image } = useUi();
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
 
   const imageSize = grid.length * CELL_SIZE;
 

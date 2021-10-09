@@ -1,11 +1,13 @@
 import { FC, CSSProperties, useCallback } from 'react';
 import { Maze, Settings } from 'components';
 import { useMaze, useSettings, useUi } from 'hooks';
-import { MazeStatus } from 'types';
 import classes from './App.module.css';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 export const App: FC = () => {
-  const { status, start } = useMaze();
+  const { start } = useMaze();
+
+  const history = useHistory();
 
   const { settings } = useSettings();
 
@@ -23,15 +25,19 @@ export const App: FC = () => {
   const handleStart = useCallback(() => {
     fetchImage();
     start(settings);
-  }, [fetchImage, settings, start]);
+    history.push('/maze');
+  }, [fetchImage, history, settings, start]);
 
   return (
     <div id="app" className={classes.app} style={appStyle}>
-      {status === MazeStatus.UNSOLVED ? (
-        <Settings onStart={handleStart} />
-      ) : (
-        <Maze />
-      )}
+      <Switch>
+        <Route path="/" exact>
+          <Settings onStart={handleStart} />
+        </Route>
+        <Route path="/maze" exact>
+          <Maze />
+        </Route>
+      </Switch>
     </div>
   );
 };

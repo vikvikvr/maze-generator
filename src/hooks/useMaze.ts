@@ -24,6 +24,10 @@ export function useMaze() {
     dispatch(actions.completeMaze());
   }, [dispatch]);
 
+  const reset = useCallback(() => {
+    dispatch(actions.resetMaze());
+  }, [dispatch]);
+
   const start = useCallback(
     ({ gridSize, stepDelay }: StartMazeOptions) => {
       const newGrid = createMazeGrid(gridSize);
@@ -40,5 +44,6 @@ export function useMaze() {
     status,
     currentPosition,
     start,
+    reset,
   };
 }
