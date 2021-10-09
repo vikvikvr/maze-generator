@@ -1,38 +1,49 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createMazeGrid, solveMaze } from 'core';
-import { MazeGrid, MazePosition, MazeStatus } from 'types/maze';
-import { UpdateFunc, UseMazeOptions } from 'types/options';
+import { UseMazeOptions } from 'types/options';
+import { getMaze, actions } from 'store';
+import { UpdateMazePayload } from 'types/payloads';
 
 /**
  * Hook to solve the maze.
  */
-export function useMaze({
-  gridSize,
-  stepDelay,
-  startingPosition,
-}: UseMazeOptions) {
-  const [grid, setGrid] = useState<MazeGrid>(createMazeGrid(gridSize));
+export function useMaze() {
+  const { grid, status, currentPosition } = useSelector(getMaze());
 
-  const [status, setStatus] = useState<MazeStatus>(MazeStatus.UNSOLVED);
+  const dispatch = useDispatch();
 
-  const [currentPosition, setCurrentPosition] = useState<MazePosition>({
-    row: 0,
-    column: 0,
-  });
-
-  const onUpdate: UpdateFunc = useCallback(
-    ({ grid: newGrid, currentRow, currentColumn }) => {
-      setGrid(newGrid);
-      setCurrentPosition({ row: currentRow, column: currentColumn });
+  const onUpdate = useCallback(
+    (payload: UpdateMazePayload) => {
+      dispatch(actions.updateMaze(payload));
     },
-    [],
+    [dispatch],
   );
 
-  const start = useCallback(async () => {
-    setStatus(MazeStatus.SOLVING);
-    await solveMaze({ grid, onUpdate, stepDelay, startingPosition });
-    setStatus(MazeStatus.SOLVED);
-  }, [grid, onUpdate, startingPosition, stepDelay]);
+  const onDone = useCallback(() => {
+    dispatch(actions.completeMaze());
+  }, [dispatch]);
+
+  console.log({ status });
+
+  const start = useCallback(
+    ({
+      gridSize,
+      stepDelay,
+      startingPosition = { row: 0, column: 0 },
+    }: UseMazeOptions) => {
+      const newGrid = createMazeGrid(gridSize);
+
+      dispatch(actions.startMaze({ grid: newGrid, startingPosition }));
+
+      solveMaze({
+        options: { grid: newGrid, stepDelay, startingPosition },
+        onUpdate,
+        onDone,
+      });
+    },
+    [dispatch, onDone, onUpdate],
+  );
 
   return {
     grid,

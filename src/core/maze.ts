@@ -1,4 +1,4 @@
-import { MazeGrid, SolveMazeOptions } from 'types';
+import { MazeGrid, MazeStatus, SolveMazeOptions } from 'types';
 import { pickRandomElementFromArray, sleep } from 'utils';
 import { MazeCell } from './MazeCell';
 
@@ -6,11 +6,14 @@ import { MazeCell } from './MazeCell';
  * Solves a maze grid asynchronously.
  */
 export async function solveMaze({
-  grid,
+  options,
   onUpdate,
-  stepDelay = 10,
-  startingPosition,
+  onDone,
 }: SolveMazeOptions): Promise<void> {
+  const { grid: storeGrid, startingPosition, stepDelay } = options;
+
+  const grid = JSON.parse(JSON.stringify(storeGrid));
+
   const center = Math.floor(grid.length / 2);
   let currentCell = grid[center][center];
 
@@ -45,8 +48,11 @@ export async function solveMaze({
       grid,
       currentRow: currentPosition[0],
       currentColumn: currentPosition[1],
+      status: MazeStatus.SOLVING,
     });
   }
+
+  onDone();
 }
 
 /**
