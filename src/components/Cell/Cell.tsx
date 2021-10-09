@@ -2,6 +2,7 @@ import { FC, CSSProperties } from 'react';
 import { MazeCell } from 'core/MazeCell';
 import classes from './Cell.module.css';
 import { classNames } from 'utils';
+import { useUi, useMaze } from 'hooks';
 
 export const CELL_SIZE = 20;
 
@@ -10,6 +11,10 @@ type Props = {
 };
 
 export const Cell: FC<Props> = ({ cell }) => {
+  const { imageId } = useUi();
+
+  const { grid } = useMaze();
+
   const cellClasses = classNames({
     [classes.cell]: true,
     [classes.topWall]: cell.topWall,
@@ -18,11 +23,24 @@ export const Cell: FC<Props> = ({ cell }) => {
     [classes.leftWall]: cell.leftWall,
   });
 
+  const gridSize = grid.length;
+
+  const GET_IMAGE_URL = 'https://picsum.photos/seed';
+  const imageUrl = `${GET_IMAGE_URL}/${imageId}/${gridSize * 20}/${
+    gridSize * 20
+  }`;
+
+  const left = cell.columnIndex * CELL_SIZE;
+
+  const top = cell.rowIndex * CELL_SIZE;
+
   const style: CSSProperties = {
-    left: cell.columnIndex * CELL_SIZE,
-    top: cell.rowIndex * CELL_SIZE,
+    left,
+    top,
     width: CELL_SIZE,
     height: CELL_SIZE,
+    background: `rgba(0, 0, 0, 0) url(${imageUrl}`,
+    backgroundPosition: `${-left}px ${-top}px`,
   };
 
   // TODO: fix overlapping cell borders

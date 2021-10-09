@@ -9,4 +9,7 @@ export const DEFAULT_STATE: StoreState = {
     grid: [],
     status: MazeStatus.UNSOLVED,
   },
+  ui: {
+    imageId: '',
+  },
 };

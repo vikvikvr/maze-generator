@@ -8,6 +8,10 @@ export const startMaze: ReducerHandler<'startMaze'> = (state, action) => ({
     currentPosition: action.payload.startingPosition,
     status: MazeStatus.SOLVING,
   },
+  ui: {
+    ...state.ui,
+    imageId: Date.now().valueOf().toString(),
+  },
 });
 
 export const updateMaze: ReducerHandler<'updateMaze'> = (state, action) => ({

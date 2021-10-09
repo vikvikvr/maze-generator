@@ -24,8 +24,6 @@ export function useMaze() {
     dispatch(actions.completeMaze());
   }, [dispatch]);
 
-  console.log({ status });
-
   const start = useCallback(
     ({
       gridSize,

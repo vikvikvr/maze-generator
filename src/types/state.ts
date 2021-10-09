@@ -7,8 +7,13 @@ export type MazeState = {
   currentPosition: MazePosition;
 };
 
+export type UiState = {
+  imageId: string;
+};
+
 export type StoreState = {
   maze: MazeState;
+  ui: UiState;
 };
 
 export type ReducerHandler<A extends keyof typeof actions> = (
