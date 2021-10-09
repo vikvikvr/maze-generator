@@ -1,6 +1,6 @@
 {
   "name": "maze-generator",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -27,9 +27,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "patch": "npm version patch && git push --tags",
-    "major": "npm version major && git push --tags",
-    "minor": "npm version minor && git push --tags"
+    "patch": "npm version patch && git push && git push --tags",
+    "major": "npm version major && git push && git push --tags",
+    "minor": "npm version minor && git push && git push --tags"
   },
   "eslintConfig": {
     "extends": [
