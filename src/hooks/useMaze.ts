@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createMazeGrid, solveMaze } from 'core';
-import { UseMazeOptions } from 'types/options';
+import { StartMazeOptions } from 'types/options';
 import { getMaze, actions } from 'store';
 import { UpdateMazePayload } from 'types/payloads';
 
@@ -25,20 +25,12 @@ export function useMaze() {
   }, [dispatch]);
 
   const start = useCallback(
-    ({
-      gridSize,
-      stepDelay,
-      startingPosition = { row: 0, column: 0 },
-    }: UseMazeOptions) => {
+    ({ gridSize, stepDelay }: StartMazeOptions) => {
       const newGrid = createMazeGrid(gridSize);
 
-      dispatch(actions.startMaze({ grid: newGrid, startingPosition }));
+      dispatch(actions.startMaze({ grid: newGrid }));
 
-      solveMaze({
-        options: { grid: newGrid, stepDelay, startingPosition },
-        onUpdate,
-        onDone,
-      });
+      solveMaze({ grid: newGrid, stepDelay }, onUpdate, onDone);
     },
     [dispatch, onDone, onUpdate],
   );

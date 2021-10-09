@@ -1,15 +1,10 @@
-import {
-  MazeStatus,
-  ReducerHandler as ActionHandler,
-  ThunkHandler,
-} from 'types';
+import { MazeStatus, ActionHandler, ThunkHandler } from 'types';
 
 export const startMaze: ActionHandler<'startMaze'> = (state, action) => ({
   ...state,
   maze: {
     ...state.maze,
     grid: action.payload.grid,
-    currentPosition: action.payload.startingPosition,
     status: MazeStatus.SOLVING,
   },
   ui: {
@@ -20,14 +15,7 @@ export const startMaze: ActionHandler<'startMaze'> = (state, action) => ({
 
 export const updateMaze: ActionHandler<'updateMaze'> = (state, action) => ({
   ...state,
-  maze: {
-    grid: action.payload.grid,
-    currentPosition: {
-      row: action.payload.currentRow,
-      column: action.payload.currentColumn,
-    },
-    status: action.payload.status,
-  },
+  maze: action.payload,
 });
 
 export const completeMaze: ActionHandler<'completeMaze'> = (state) => ({

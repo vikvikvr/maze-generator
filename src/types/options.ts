@@ -1,28 +1,11 @@
-import { MazeStatus } from 'types';
-import { MazeGrid, MazePosition } from './maze';
+import { MazeGrid } from './maze';
 
-export type UpdateFuncOptions = {
+export type SolveMazeOptions = {
+  stepDelay: number;
   grid: MazeGrid;
-  currentRow: number;
-  currentColumn: number;
-  status: MazeStatus;
 };
 
-export type UpdateFunc = (options: UpdateFuncOptions) => void;
-
-export type SharedMazeOptions = {
-  stepDelay?: number;
-  startingPosition?: MazePosition;
-};
-
-export type SolveMazeOptions = SharedMazeOptions & {
-  options: SharedMazeOptions & {
-    grid: MazeGrid;
-  };
-  onUpdate: UpdateFunc;
-  onDone: () => void;
-};
-
-export type UseMazeOptions = SharedMazeOptions & {
+export type StartMazeOptions = {
   gridSize: number;
+  stepDelay: number;
 };
