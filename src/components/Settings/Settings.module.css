@@ -1,3 +1,21 @@
+.settings {
+  background-color: rgba(0, 0, 0, 0.801);
+  padding: 2rem;
+  display: grid;
+  place-content: center;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  color: white;
+}
+
+.header {
+  display: grid;
+}
+
 .sliderContainer {
   display: grid;
+}
+
+.appVersion {
+  place-self: end;
 }

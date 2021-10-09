@@ -12,7 +12,9 @@ export const App: FC = () => {
   const { fetchImage, image } = useUi();
 
   const appStyle: CSSProperties = {
-    backgroundImage: `url(${image.blurred})`,
+    backgroundImage: `url(${
+      image.blurred || 'https://picsum.photos/1920/1080'
+    })`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -26,15 +28,10 @@ export const App: FC = () => {
   return (
     <div id="app" className={classes.app} style={appStyle}>
       {status === MazeStatus.UNSOLVED ? (
-        <div>
-          <Settings />
-          <button onClick={handleStart}>start</button>
-          <div>{image.blurred}</div>
-        </div>
+        <Settings onStart={handleStart} />
       ) : (
         <Maze />
       )}
-      <div className={classes.appVersion}>v{process.env.REACT_APP_VERSION}</div>
     </div>
   );
 };

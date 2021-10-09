@@ -3,6 +3,7 @@ import { MazeCell } from 'core/MazeCell';
 import classes from './Cell.module.css';
 import { classNames } from 'utils';
 
+// TODO: adapt cell size to gridSize
 export const CELL_SIZE = 20;
 
 type Props = {

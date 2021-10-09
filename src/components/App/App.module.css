@@ -10,9 +10,3 @@ body {
   display: grid;
   place-content: center;
 }
-
-.appVersion {
-  position: fixed;
-  left: 22px;
-  bottom: 22px;
-}

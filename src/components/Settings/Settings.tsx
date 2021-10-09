@@ -2,11 +2,21 @@ import { FC } from 'react';
 import { useSettings } from 'hooks';
 import classes from './Settings.module.css';
 
+type Props = {
+  onStart: () => void;
+};
+
 // TODO: add setting to choose image category
-export const Settings: FC = () => {
+export const Settings: FC<Props> = ({ onStart }) => {
   const { settings, onChange } = useSettings();
   return (
-    <div>
+    <div className={classes.settings}>
+      <header className={classes.header}>
+        <h1>Maze generator</h1>
+        <div className={classes.appVersion}>
+          v{process.env.REACT_APP_VERSION}
+        </div>
+      </header>
       <div className={classes.sliderContainer}>
         <label>Grid size</label>
         <input
@@ -31,6 +41,7 @@ export const Settings: FC = () => {
           onChange={onChange}
         />
       </div>
+      <button onClick={onStart}>Start</button>
     </div>
   );
 };
