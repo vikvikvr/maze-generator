@@ -37,6 +37,7 @@ export const App: FC = () => {
       ) : (
         <Maze />
       )}
+      <div className={classes.appVersion}>v{process.env.REACT_APP_VERSION}</div>
     </div>
   );
 };
