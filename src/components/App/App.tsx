@@ -5,9 +5,9 @@ import { MazeStatus, UseMazeOptions } from 'types';
 import classes from './App.module.css';
 
 // TODO: add UI elements to customize maze options
-const MAZE_OPTIONS: UseMazeOptions = {
+export const MAZE_OPTIONS: UseMazeOptions = {
   gridSize: 30,
-  stepDelay: 0,
+  stepDelay: 10,
   startingPosition: {
     row: 5,
     column: 6,
@@ -17,12 +17,10 @@ const MAZE_OPTIONS: UseMazeOptions = {
 export const App: FC = () => {
   const { status, start } = useMaze();
 
-  const { imageId } = useUi();
-
-  const backgroundUrl = `https://picsum.photos/seed/${imageId}/1920/1080?blur=8`;
+  const { fetchImage, image } = useUi();
 
   const appStyle: CSSProperties = {
-    background: `url(${backgroundUrl})`,
+    background: `url(${image.blurred})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -32,7 +30,9 @@ export const App: FC = () => {
     <div id="app" className={classes.app} style={appStyle}>
       {status === MazeStatus.UNSOLVED ? (
         <div>
+          <button onClick={fetchImage}>fetch image</button>
           <button onClick={() => start(MAZE_OPTIONS)}>start</button>
+          <div>{image.blurred}</div>
         </div>
       ) : (
         <Maze />

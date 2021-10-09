@@ -10,6 +10,9 @@ export const DEFAULT_STATE: StoreState = {
     status: MazeStatus.UNSOLVED,
   },
   ui: {
-    imageId: '',
+    image: {
+      blurred: '',
+      regular: '',
+    },
   },
 };

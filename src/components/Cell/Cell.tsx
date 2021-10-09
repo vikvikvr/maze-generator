@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const Cell: FC<Props> = ({ cell }) => {
-  const { imageId } = useUi();
+  // const { imageId } = useUi();
 
   const { grid } = useMaze();
 
@@ -24,6 +24,9 @@ export const Cell: FC<Props> = ({ cell }) => {
   });
 
   const gridSize = grid.length;
+
+  // TODO: replace withe new image from state
+  const imageId = 42;
 
   const GET_IMAGE_URL = 'https://picsum.photos/seed';
   const imageUrl = `${GET_IMAGE_URL}/${imageId}/${gridSize * 20}/${

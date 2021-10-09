@@ -33,3 +33,13 @@ export const completeMaze: ReducerHandler<'completeMaze'> = (state) => ({
     status: MazeStatus.SOLVED,
   },
 });
+
+export const setImage = (state: any, action: any) => ({
+  ...state,
+  ui: {
+    ...state.ui,
+    image: {
+      ...action.payload,
+    },
+  },
+});

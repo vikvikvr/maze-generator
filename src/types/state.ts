@@ -8,7 +8,10 @@ export type MazeState = {
 };
 
 export type UiState = {
-  imageId: string;
+  image: {
+    blurred: string;
+    regular: string;
+  };
 };
 
 export type StoreState = {
