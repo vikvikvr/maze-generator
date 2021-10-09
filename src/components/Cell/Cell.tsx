@@ -13,7 +13,9 @@ type Props = {
 export const Cell: FC<Props> = ({ cell }) => {
   // const { imageId } = useUi();
 
-  const { grid } = useMaze();
+  const { grid, currentPosition } = useMaze();
+
+  const { image } = useUi();
 
   const cellClasses = classNames({
     [classes.cell]: true,
@@ -25,25 +27,27 @@ export const Cell: FC<Props> = ({ cell }) => {
 
   const gridSize = grid.length;
 
-  // TODO: replace withe new image from state
-  const imageId = 42;
+  const isCurrentRow = cell.rowIndex === currentPosition.row;
 
-  const GET_IMAGE_URL = 'https://picsum.photos/seed';
-  const imageUrl = `${GET_IMAGE_URL}/${imageId}/${gridSize * 20}/${
-    gridSize * 20
-  }`;
+  const isCurrentColumn = cell.columnIndex === currentPosition.column;
+
+  const isCurrent = isCurrentRow && isCurrentColumn;
 
   const left = cell.columnIndex * CELL_SIZE;
 
   const top = cell.rowIndex * CELL_SIZE;
+
+  const cellOpacity = cell.wasVisited ? 1 : 0.5;
 
   const style: CSSProperties = {
     left,
     top,
     width: CELL_SIZE,
     height: CELL_SIZE,
-    background: `rgba(0, 0, 0, 0) url(${imageUrl}`,
+    backgroundImage: `url(${image.regular})`,
     backgroundPosition: `${-left}px ${-top}px`,
+    opacity: isCurrent ? 0.3 : cellOpacity,
+    backgroundSize: gridSize * CELL_SIZE,
   };
 
   // TODO: fix overlapping cell borders

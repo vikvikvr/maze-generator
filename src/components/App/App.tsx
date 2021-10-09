@@ -1,4 +1,4 @@
-import { FC, CSSProperties } from 'react';
+import { FC, CSSProperties, useCallback } from 'react';
 import { Maze } from 'components';
 import { useMaze, useUi } from 'hooks';
 import { MazeStatus, UseMazeOptions } from 'types';
@@ -26,12 +26,16 @@ export const App: FC = () => {
     backgroundPosition: 'center',
   };
 
+  const handleStart = useCallback(() => {
+    fetchImage();
+    start(MAZE_OPTIONS);
+  }, [fetchImage, start]);
+
   return (
     <div id="app" className={classes.app} style={appStyle}>
       {status === MazeStatus.UNSOLVED ? (
         <div>
-          <button onClick={fetchImage}>fetch image</button>
-          <button onClick={() => start(MAZE_OPTIONS)}>start</button>
+          <button onClick={handleStart}>start</button>
           <div>{image.blurred}</div>
         </div>
       ) : (
