@@ -6,7 +6,7 @@ A fun **maze generator** that will uncover a **random picture**.
 
 **Watch** the maze taking shape [here](https://vikvikvr.github.io/maze-generator/)! 👈
 
-[![Maze screenshot](./maze.gif)](https://vikvikvr.github.io/maze-generator/)
+[![Maze screenshot](./docs/maze.gif)](https://vikvikvr.github.io/maze-generator/)
 
 Built with vanilla web technologies.
 

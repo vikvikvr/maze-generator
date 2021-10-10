@@ -1,0 +1,12 @@
+.mazeContainer {
+  display: grid;
+  gap: 2rem;
+}
+
+.maze {
+  position: relative;
+}
+
+.backButton {
+  place-self: center;
+}
