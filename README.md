@@ -1,12 +1,12 @@
 # Maze Generator
 
-[![Website maze-generator](https://img.shields.io/website-up-down-green-red/http/monip.org.svg)](https://vikvikvr.github.io/maze-generator/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0b53bcd9-7ab8-49ee-a034-deaa03056e9b/deploy-status)](https://app.netlify.com/sites/maze-generator-cw/deploys)
 
 A fun **maze generator** that will uncover a **random picture**.
 
-**Watch** the maze taking shape [here](https://vikvikvr.github.io/maze-generator/)! 👈
+**Watch** the maze taking shape [here](https://master--maze-generator-cw.netlify.app//)! 👈
 
-[![Maze screenshot](./docs/maze.gif)](https://vikvikvr.github.io/maze-generator/)
+[![Maze screenshot](./docs/maze.gif)](https://master--maze-generator-cw.netlify.app//)
 
 Built with vanilla web technologies.
 
