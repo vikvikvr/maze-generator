@@ -54,15 +54,13 @@ export const Maze: FC = () => {
   return (
     <div className={classes.mazeContainer}>
       <div className={classes.maze} style={mazeStyle} ref={ref}>
-        {grid.flat().map((cell, index) => {
-          return (
-            <Cell
-              cell={cell}
-              isCurrent={isCurrent(cell, currentPosition)}
-              key={index}
-            />
-          );
-        })}
+        {grid.flat().map((cell, index) => (
+          <Cell
+            cell={cell}
+            isCurrent={isCurrent(cell, currentPosition)}
+            key={index}
+          />
+        ))}
       </div>
       <button onClick={() => history.push('/')} className={classes.backButton}>
         Back

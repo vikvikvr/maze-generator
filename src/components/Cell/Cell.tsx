@@ -20,21 +20,19 @@ export const Cell: FC<Props> = memo(({ cell, isCurrent }) => {
     [classes.leftWall]: cell.leftWall,
   });
 
-  const left = cell.columnIndex * CELL_SIZE;
+  let cellOpacity = cell.wasVisited ? 0 : 0.5;
 
-  const top = cell.rowIndex * CELL_SIZE;
-
-  const cellOpacity = cell.wasVisited ? 0 : 0.5;
+  if (isCurrent) {
+    cellOpacity = 0.3;
+  }
 
   const style: CSSProperties = {
-    left,
-    top,
+    left: cell.columnIndex * CELL_SIZE,
+    top: cell.rowIndex * CELL_SIZE,
     width: CELL_SIZE,
     height: CELL_SIZE,
-    backgroundColor: `rgba(0, 0, 0, ${isCurrent ? 0.3 : cellOpacity})`,
+    backgroundColor: `rgba(0, 0, 0, ${cellOpacity})`,
   };
-
-  // TODO: fix overlapping cell borders
 
   return <div className={cellClasses} style={style} />;
 });

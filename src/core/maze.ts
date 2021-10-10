@@ -12,8 +12,8 @@ export function solveMazeStep(step: MazeStep): MazeStep {
   const {
     grid: oldGrid,
     currentPosition: oldCurrentPosition,
-    visitedCells: oldVisitedCells,
-  } = JSON.parse(JSON.stringify(step)) as MazeStep;
+    visitedCells,
+  } = step;
 
   const grid = oldGrid;
 
@@ -22,8 +22,6 @@ export function solveMazeStep(step: MazeStep): MazeStep {
   let currentCell = grid[currentPosition[0]][currentPosition[1]];
 
   currentCell.wasVisited = true;
-
-  const visitedCells = [...oldVisitedCells];
 
   if (visitedCells.length) {
     currentCell = visitedCells.pop() as MazeCell;
