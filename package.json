@@ -2,6 +2,7 @@
   "name": "maze-generator",
   "version": "0.3.5",
   "private": true,
+  "homepage": "https://maze-generator-cw.netlify.app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -30,7 +31,9 @@
     "eject": "react-scripts eject",
     "patch": "npm version patch && git push && git push --tags",
     "major": "npm version major && git push && git push --tags",
-    "minor": "npm version minor && git push && git push --tags"
+    "minor": "npm version minor && git push && git push --tags",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
