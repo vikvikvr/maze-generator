@@ -9,9 +9,10 @@ export const CELL_SIZE = 20;
 type Props = {
   cell: MazeCell;
   isCurrent: boolean;
+  mazeDone: boolean;
 };
 
-export const Cell: FC<Props> = memo(({ cell, isCurrent }) => {
+export const Cell: FC<Props> = memo(({ cell, isCurrent, mazeDone }) => {
   const cellClasses = classNames({
     [classes.cell]: true,
     [classes.topWall]: cell.topWall,
@@ -22,7 +23,7 @@ export const Cell: FC<Props> = memo(({ cell, isCurrent }) => {
 
   let cellOpacity = cell.wasVisited ? 0 : 0.5;
 
-  if (isCurrent) {
+  if (isCurrent && !mazeDone) {
     cellOpacity = 0.3;
   }
 
