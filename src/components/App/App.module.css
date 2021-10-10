@@ -9,6 +9,7 @@ body {
   height: 100vh;
   display: grid;
   place-content: center;
+  background-color: black;
 }
 
 button {

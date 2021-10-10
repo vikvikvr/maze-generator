@@ -51,6 +51,27 @@ export const Maze: FC = () => {
     };
   }, [grid.length, image.regular]);
 
+  const sharedMarkersStyle: CSSProperties = {
+    width: CELL_SIZE,
+    height: CELL_SIZE,
+    position: 'absolute',
+    cursor: 'pointer',
+    backgroundColor: 'black',
+    opacity: 0.5,
+  };
+
+  const entranceStyle: CSSProperties = {
+    ...sharedMarkersStyle,
+    left: 0,
+    top: 0,
+  };
+
+  const exitStyle: CSSProperties = {
+    ...sharedMarkersStyle,
+    right: 0,
+    bottom: 0,
+  };
+
   return (
     <div className={classes.mazeContainer}>
       <div className={classes.maze} style={mazeStyle} ref={ref}>
@@ -58,9 +79,12 @@ export const Maze: FC = () => {
           <Cell
             cell={cell}
             isCurrent={isCurrent(cell, currentPosition)}
+            mazeDone={isDone}
             key={index}
           />
         ))}
+        {isDone && <div style={entranceStyle} title="Entrance" />}
+        {isDone && <div style={exitStyle} title="Exit" />}
       </div>
       <button onClick={() => history.push('/')} className={classes.backButton}>
         Back
