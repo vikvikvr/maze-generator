@@ -1,7 +1,7 @@
 import { useMemo, FC, CSSProperties, useEffect } from 'react';
 import classes from './Maze.module.css';
 import { Cell, CELL_SIZE } from 'components/Cell';
-import { useMaze, useSettings, useUi } from 'hooks';
+import { useDownloadComponent, useMaze, useSettings, useUi } from 'hooks';
 import { MazeCell } from 'core/MazeCell';
 import { MazePosition } from 'types';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,8 @@ function isCurrent(cell: MazeCell, { column, row }: MazePosition) {
 
 export const Maze: FC = () => {
   const { grid, currentPosition, start } = useMaze();
+
+  const { ref, download } = useDownloadComponent<HTMLDivElement>();
 
   const history = useHistory();
 
@@ -35,11 +37,12 @@ export const Maze: FC = () => {
     };
   }, [image.regular, imageSize]);
 
-  // TODO: improve performance using canvas
+  const isDone =
+    !!grid.length && grid.flat().every(({ wasVisited }) => wasVisited === true);
 
   return (
     <div className={classes.mazeContainer}>
-      <div className={classes.maze} style={mazeStyle}>
+      <div className={classes.maze} style={mazeStyle} ref={ref}>
         {grid.flat().map((cell, index) => {
           return (
             <Cell
@@ -53,6 +56,7 @@ export const Maze: FC = () => {
       <button onClick={() => history.push('/')} className={classes.backButton}>
         Back
       </button>
+      {isDone && <button onClick={download}>Download</button>}
     </div>
   );
 };
