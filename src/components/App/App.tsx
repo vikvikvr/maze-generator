@@ -20,7 +20,6 @@ export const App: FC = () => {
 
   const handleStart = useCallback(() => {
     fetchImage();
-    // start(settings);
     history.push('/maze');
   }, [fetchImage, history]);
 

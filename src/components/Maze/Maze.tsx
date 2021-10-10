@@ -5,6 +5,8 @@ import { useDownloadComponent, useMaze, useSettings, useUi } from 'hooks';
 import { MazeCell } from 'core/MazeCell';
 import { MazePosition } from 'types';
 import { useHistory } from 'react-router-dom';
+import { actions } from 'store';
+import { useDispatch } from 'react-redux';
 
 function isCurrent(cell: MazeCell, { column, row }: MazePosition) {
   return cell.rowIndex === row && cell.columnIndex === column;
@@ -17,28 +19,37 @@ export const Maze: FC = () => {
 
   const history = useHistory();
 
+  const dispatch = useDispatch();
+
   const { image } = useUi();
 
   const { settings } = useSettings();
 
   useEffect(() => {
     start(settings);
+    dispatch(actions.startMaze());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const imageSize = grid.length * CELL_SIZE;
+  const isDone =
+    !!grid.length && grid.flat().every(({ wasVisited }) => wasVisited === true);
+
+  useEffect(() => {
+    if (isDone) {
+      dispatch(actions.completeMaze());
+    }
+  }, [dispatch, isDone]);
 
   const mazeStyle: CSSProperties = useMemo(() => {
+    const imageSize = grid.length * CELL_SIZE;
+
     return {
       width: imageSize,
       height: imageSize,
       backgroundImage: `url(${image.regular})`,
       backgroundSize: `${imageSize}px ${imageSize}px`,
     };
-  }, [image.regular, imageSize]);
-
-  const isDone =
-    !!grid.length && grid.flat().every(({ wasVisited }) => wasVisited === true);
+  }, [grid.length, image.regular]);
 
   return (
     <div className={classes.mazeContainer}>

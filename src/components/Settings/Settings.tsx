@@ -1,14 +1,25 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useSettings } from 'hooks';
 import classes from './Settings.module.css';
+import { actions } from 'store';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   onStart: () => void;
 };
 
+// TODO: show settings preview
+
 // TODO: add setting to choose image category
 export const Settings: FC<Props> = ({ onStart }) => {
   const { settings, onChange } = useSettings();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.resetMaze());
+  }, [dispatch]);
+
   return (
     <div className={classes.settings}>
       <header className={classes.header}>

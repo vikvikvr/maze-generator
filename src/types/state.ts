@@ -1,9 +1,7 @@
-import { MazeGrid, MazePosition, MazeStatus } from './maze';
+import { MazeStatus } from './maze';
 
 export type MazeState = {
-  grid: MazeGrid;
   status: MazeStatus;
-  currentPosition: MazePosition;
 };
 
 export type UiState = {

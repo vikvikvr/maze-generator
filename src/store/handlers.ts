@@ -1,11 +1,8 @@
 import { MazeStatus, ActionHandler, ThunkHandler } from 'types';
-import { DEFAULT_STATE } from './state';
 
-export const startMaze: ActionHandler<'startMaze'> = (state, action) => ({
+export const startMaze: ActionHandler<'startMaze'> = (state) => ({
   ...state,
   maze: {
-    ...state.maze,
-    grid: action.payload.grid,
     status: MazeStatus.SOLVING,
   },
   ui: {
@@ -14,20 +11,16 @@ export const startMaze: ActionHandler<'startMaze'> = (state, action) => ({
   },
 });
 
-export const updateMaze: ActionHandler<'updateMaze'> = (state, action) => ({
-  ...state,
-  maze: action.payload,
-});
-
 export const resetMaze: ActionHandler<'resetMaze'> = (state) => ({
   ...state,
-  maze: DEFAULT_STATE.maze,
+  maze: {
+    status: MazeStatus.UNSOLVED,
+  },
 });
 
 export const completeMaze: ActionHandler<'completeMaze'> = (state) => ({
   ...state,
   maze: {
-    ...state.maze,
     status: MazeStatus.SOLVED,
   },
 });
