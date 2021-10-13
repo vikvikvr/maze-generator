@@ -8,6 +8,7 @@ export type UiState = {
   image: {
     blurred: string;
     regular: string;
+    loading: boolean;
   };
 };
 
