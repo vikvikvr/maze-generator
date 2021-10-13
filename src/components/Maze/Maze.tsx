@@ -1,4 +1,4 @@
-import { useMemo, FC, CSSProperties, useEffect } from 'react';
+import { useMemo, FC, CSSProperties, useEffect, useRef } from 'react';
 import classes from './Maze.module.css';
 import { Cell, CELL_SIZE } from 'components/Cell';
 import { useDownloadComponent, useMaze, useSettings, useUi } from 'hooks';
@@ -7,6 +7,7 @@ import { MazePosition } from 'types';
 import { useHistory } from 'react-router-dom';
 import { actions } from 'store';
 import { useDispatch } from 'react-redux';
+import { getAverageRGB } from 'utils';
 
 function isCurrent(cell: MazeCell, { column, row }: MazePosition) {
   return cell.rowIndex === row && cell.columnIndex === column;
@@ -31,6 +32,8 @@ export const Maze: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const imageRef = useRef<HTMLImageElement>(null);
+
   const isDone =
     !!grid.length && grid.flat().every(({ wasVisited }) => wasVisited === true);
 
@@ -40,7 +43,7 @@ export const Maze: FC = () => {
     }
   }, [dispatch, isDone]);
 
-  const mazeStyle: CSSProperties = useMemo(() => {
+  const imageStyle: CSSProperties = useMemo(() => {
     const imageSize = grid.length * CELL_SIZE;
 
     return {
@@ -51,12 +54,19 @@ export const Maze: FC = () => {
     };
   }, [grid.length, image.regular]);
 
+  const isImageLight = useMemo(() => {
+    const averageColor = imageRef.current ? getAverageRGB(imageRef.current) : 0;
+
+    return averageColor > 125;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageRef.current]);
+
   const sharedMarkersStyle: CSSProperties = {
     width: CELL_SIZE,
     height: CELL_SIZE,
     position: 'absolute',
     cursor: 'pointer',
-    backgroundColor: 'black',
+    backgroundColor: isImageLight ? 'black' : 'dark',
     opacity: 0.5,
   };
 
@@ -72,19 +82,17 @@ export const Maze: FC = () => {
     bottom: 0,
   };
 
-  if (image.loading) {
-    return <div>LOADING</div>;
-  }
-
   return (
     <div className={classes.mazeContainer}>
-      <div className={classes.maze} style={mazeStyle} ref={ref}>
+      <div className={classes.maze} ref={ref}>
+        <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
         {grid.flat().map((cell, index) => (
           <Cell
             cell={cell}
             isCurrent={isCurrent(cell, currentPosition)}
             mazeDone={isDone}
             key={index}
+            isImageLight={isImageLight}
           />
         ))}
         {isDone && <div style={entranceStyle} title="Entrance" />}
