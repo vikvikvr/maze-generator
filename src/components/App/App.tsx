@@ -7,21 +7,18 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 export const App: FC = () => {
   const history = useHistory();
 
-  const { fetchImage, image } = useUi();
+  const { image } = useUi();
 
   const appStyle: CSSProperties = {
-    backgroundImage: `url(${
-      image.blurred || 'https://picsum.photos/1920/1080'
-    })`,
+    backgroundImage: `url(${image.blurred})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   };
 
   const handleStart = useCallback(() => {
-    fetchImage();
     history.push('/maze');
-  }, [fetchImage, history]);
+  }, [history]);
 
   return (
     <div id="app" className={classes.app} style={appStyle}>

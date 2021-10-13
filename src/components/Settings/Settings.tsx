@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useSettings } from 'hooks';
+import { useSettings, useUi } from 'hooks';
 import classes from './Settings.module.css';
 import { actions } from 'store';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,13 @@ type Props = {
 export const Settings: FC<Props> = ({ onStart }) => {
   const { settings, onChange } = useSettings();
 
+  const { fetchImage, image } = useUi();
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchImage();
+  }, [fetchImage]);
 
   useEffect(() => {
     dispatch(actions.resetMaze());
@@ -52,7 +58,9 @@ export const Settings: FC<Props> = ({ onStart }) => {
           onChange={onChange}
         />
       </div>
-      <button onClick={onStart}>Start</button>
+      <button onClick={onStart} disabled={image.loading}>
+        Start
+      </button>
     </div>
   );
 };

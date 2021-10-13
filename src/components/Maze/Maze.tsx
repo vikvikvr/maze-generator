@@ -72,6 +72,10 @@ export const Maze: FC = () => {
     bottom: 0,
   };
 
+  if (image.loading) {
+    return <div>LOADING</div>;
+  }
+
   return (
     <div className={classes.mazeContainer}>
       <div className={classes.maze} style={mazeStyle} ref={ref}>
