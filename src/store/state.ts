@@ -8,6 +8,7 @@ export const DEFAULT_STATE: StoreState = {
     image: {
       blurred: '',
       regular: '',
+      loading: false,
     },
   },
   settings: {

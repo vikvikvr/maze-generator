@@ -11,14 +11,11 @@ const initialState = {
   },
   grid: [] as MazeGrid,
   visitedCells: [] as MazeCell[],
-  started: false,
 };
 
 let state = initialState;
 
 let intervalId: any;
-
-// TODO: remove redux logic for maze
 
 /**
  * Hook to solve the maze.
@@ -27,18 +24,18 @@ export function useMaze() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState(0);
 
+  const isDone = state.grid.length
+    ? state.grid.flat().every((cell) => cell.wasVisited === true)
+    : false;
+
   const update = () => {
     if (!state.visitedCells.length) {
       clearInterval(intervalId);
     }
 
     if (state.grid.length) {
-      let mazeStep = solveMazeStep(state);
+      state = solveMazeStep(state);
 
-      state = {
-        ...state,
-        ...mazeStep,
-      };
       setStep((step) => step + 1);
     } else {
       console.log('else', state);
@@ -50,12 +47,9 @@ export function useMaze() {
 
     newGrid[0][0].wasVisited = true;
 
-    state = {
-      ...state,
-      grid: newGrid,
-      visitedCells: [newGrid[0][0]],
-      started: true,
-    };
+    state.grid = newGrid;
+    state.visitedCells = [newGrid[0][0]];
+
     setStep((step) => step + 1);
 
     intervalId = setInterval(() => update(), stepDelay);
@@ -72,6 +66,7 @@ export function useMaze() {
   return {
     grid: state.grid,
     currentPosition: state.currentPosition,
+    isDone,
     start,
   };
 }
