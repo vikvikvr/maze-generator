@@ -1,15 +1,12 @@
 import { exportComponentAsPNG } from 'react-component-export-image';
-import { useRef, useCallback, ReactInstance } from 'react';
+import { useCallback } from 'react';
 
-export function useDownloadComponent<I extends ReactInstance>() {
-  const ref = useRef<I>(null);
-
+export function useDownloadComponent(ref: React.RefObject<HTMLCanvasElement>) {
   const download = useCallback(() => {
     exportComponentAsPNG(ref, { fileName: 'maze.png' });
-  }, []);
+  }, [ref]);
 
   return {
-    ref,
     download,
   };
 }

@@ -1,6 +1,8 @@
-export function getAverageRGB(imgEl: HTMLImageElement) {
-  const blockSize = 5; // only visit every 5 pixels
-  const defaultRGB = { r: 0, g: 0, b: 0 }; // for non-supporting envs
+/**
+ * @see https://codepen.io/influxweb/pen/LpoXba
+ */
+export function getAverageRGB(imgEl: HTMLImageElement): number {
+  const blockSize = 1; // only visit every X pixels
   const canvas = document.createElement('canvas');
   const context = canvas.getContext && canvas.getContext('2d');
 
@@ -11,7 +13,7 @@ export function getAverageRGB(imgEl: HTMLImageElement) {
   let count = 0;
 
   if (!context) {
-    return defaultRGB;
+    return 0;
   }
 
   const height = (canvas.height =
@@ -24,8 +26,7 @@ export function getAverageRGB(imgEl: HTMLImageElement) {
   try {
     data = context.getImageData(0, 0, width, height);
   } catch (e) {
-    /* security error, img on diff domain */ alert('x');
-    return defaultRGB;
+    return 0;
   }
 
   const length = data.data.length;
@@ -37,10 +38,9 @@ export function getAverageRGB(imgEl: HTMLImageElement) {
     rgb.b += data.data[i + 2];
   }
 
-  // ~~ used to floor values
-  rgb.r = ~~(rgb.r / count);
-  rgb.g = ~~(rgb.g / count);
-  rgb.b = ~~(rgb.b / count);
+  rgb.r = rgb.r / count;
+  rgb.g = rgb.g / count;
+  rgb.b = rgb.b / count;
 
   const average = (rgb.r + rgb.g + rgb.b) / 3;
 

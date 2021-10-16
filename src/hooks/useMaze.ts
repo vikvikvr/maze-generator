@@ -24,6 +24,10 @@ export function useMaze() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState(0);
 
+  const isDone = state.grid.length
+    ? state.grid.flat().every((cell) => cell.wasVisited === true)
+    : false;
+
   const update = () => {
     if (!state.visitedCells.length) {
       clearInterval(intervalId);
@@ -62,6 +66,7 @@ export function useMaze() {
   return {
     grid: state.grid,
     currentPosition: state.currentPosition,
+    isDone,
     start,
   };
 }

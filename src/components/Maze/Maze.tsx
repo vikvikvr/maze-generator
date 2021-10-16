@@ -1,28 +1,34 @@
-import { useMemo, FC, CSSProperties, useEffect, useRef } from 'react';
+import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
 import classes from './Maze.module.css';
-import { Cell, CELL_SIZE } from 'components/Cell';
-import { useDownloadComponent, useMaze, useSettings, useUi } from 'hooks';
-import { MazeCell } from 'core/MazeCell';
-import { MazePosition } from 'types';
+import { CELL_SIZE, BORDER_WIDTH } from 'shared/constants';
+import {
+  useDownloadComponent,
+  useDrawMaze,
+  useMaze,
+  useSettings,
+  useUi,
+} from 'hooks';
 import { useHistory } from 'react-router-dom';
 import { actions } from 'store';
 import { useDispatch } from 'react-redux';
-import { getAverageRGB } from 'utils';
-
-function isCurrent(cell: MazeCell, { column, row }: MazePosition) {
-  return cell.rowIndex === row && cell.columnIndex === column;
-}
 
 export const Maze: FC = () => {
-  const { grid, currentPosition, start } = useMaze();
-
-  const { ref, download } = useDownloadComponent<HTMLDivElement>();
+  const { grid, currentPosition, isDone, start } = useMaze();
 
   const history = useHistory();
 
   const dispatch = useDispatch();
 
   const { image } = useUi();
+
+  const { canvasRef, imageRef, drawMaze } = useDrawMaze({
+    grid,
+    currentPosition,
+    imageSrc: image.regular,
+    isDone,
+  });
+
+  const { download } = useDownloadComponent(canvasRef);
 
   const { settings } = useSettings();
 
@@ -32,72 +38,33 @@ export const Maze: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const imageRef = useRef<HTMLImageElement>(null);
+  const imageSize = grid.length * CELL_SIZE + BORDER_WIDTH * grid.length;
 
-  const isDone =
-    !!grid.length && grid.flat().every(({ wasVisited }) => wasVisited === true);
-
-  useEffect(() => {
+  const completeMaze = useCallback(() => {
     if (isDone) {
       dispatch(actions.completeMaze());
     }
   }, [dispatch, isDone]);
 
-  const imageStyle: CSSProperties = useMemo(() => {
-    const imageSize = grid.length * CELL_SIZE;
+  useEffect(drawMaze, [drawMaze]);
 
+  useEffect(completeMaze, [completeMaze]);
+
+  // hidden: only used to get average color
+  const imageStyle = useMemo((): CSSProperties => {
     return {
       width: imageSize,
       height: imageSize,
       backgroundImage: `url(${image.regular})`,
       backgroundSize: `${imageSize}px ${imageSize}px`,
+      display: 'none',
     };
-  }, [grid.length, image.regular]);
-
-  const isImageLight = useMemo(() => {
-    const averageColor = imageRef.current ? getAverageRGB(imageRef.current) : 0;
-
-    return averageColor > 125;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageRef.current]);
-
-  const sharedMarkersStyle: CSSProperties = {
-    width: CELL_SIZE,
-    height: CELL_SIZE,
-    position: 'absolute',
-    cursor: 'pointer',
-    backgroundColor: isImageLight ? 'black' : 'dark',
-    opacity: 0.5,
-  };
-
-  const entranceStyle: CSSProperties = {
-    ...sharedMarkersStyle,
-    left: 0,
-    top: 0,
-  };
-
-  const exitStyle: CSSProperties = {
-    ...sharedMarkersStyle,
-    right: 0,
-    bottom: 0,
-  };
+  }, [image.regular, imageSize]);
 
   return (
     <div className={classes.mazeContainer}>
-      <div className={classes.maze} ref={ref}>
-        <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
-        {grid.flat().map((cell, index) => (
-          <Cell
-            cell={cell}
-            isCurrent={isCurrent(cell, currentPosition)}
-            mazeDone={isDone}
-            key={index}
-            isImageLight={isImageLight}
-          />
-        ))}
-        {isDone && <div style={entranceStyle} title="Entrance" />}
-        {isDone && <div style={exitStyle} title="Exit" />}
-      </div>
+      <canvas ref={canvasRef} width={imageSize} height={imageSize} />
+      <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <button onClick={() => history.push('/')} className={classes.backButton}>
         Back
       </button>

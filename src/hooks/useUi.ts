@@ -1,4 +1,4 @@
-import { CELL_SIZE } from 'components/Cell';
+import { CELL_SIZE } from 'shared/constants';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getImage, thunks } from 'store';
