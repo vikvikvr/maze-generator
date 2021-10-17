@@ -1,30 +1,27 @@
 import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
-import classes from './Maze.module.css';
-import { CELL_SIZE, BORDER_WIDTH } from 'shared/constants';
-import {
-  useDownloadComponent,
-  useDrawMaze,
-  useMaze,
-  useSettings,
-  useUi,
-} from 'hooks';
 import { useHistory } from 'react-router-dom';
-import { actions } from 'store';
-import { useDispatch } from 'react-redux';
+
+import { useDrawMaze, useMaze } from 'features/maze';
+import { useSettings } from 'features/settings';
+import classes from './Maze.module.css';
+import {
+  BORDER_WIDTH,
+  CELL_SIZE,
+  useDownloadComponent,
+  useImages,
+} from 'features/images';
 
 export const Maze: FC = () => {
   const { grid, currentPosition, isDone, start } = useMaze();
 
   const history = useHistory();
 
-  const dispatch = useDispatch();
-
-  const { image } = useUi();
+  const { images, fetchImage, loading } = useImages();
 
   const { canvasRef, imageRef, drawMaze } = useDrawMaze({
     grid,
     currentPosition,
-    imageSrc: image.regular,
+    imageSrc: images.regular,
     isDone,
   });
 
@@ -34,41 +31,56 @@ export const Maze: FC = () => {
 
   useEffect(() => {
     start(settings);
-    dispatch(actions.startMaze());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const startNext = useCallback(async () => {
+    await fetchImage({
+      cellSize: CELL_SIZE,
+      gridSize: settings.gridSize,
+    });
+    start(settings);
+  }, [fetchImage, settings, start]);
+
   const imageSize = grid.length * CELL_SIZE + BORDER_WIDTH * grid.length;
 
-  const completeMaze = useCallback(() => {
-    if (isDone) {
-      dispatch(actions.completeMaze());
-    }
-  }, [dispatch, isDone]);
-
   useEffect(drawMaze, [drawMaze]);
-
-  useEffect(completeMaze, [completeMaze]);
 
   // hidden: only used to get average color
   const imageStyle = useMemo((): CSSProperties => {
     return {
       width: imageSize,
       height: imageSize,
-      backgroundImage: `url(${image.regular})`,
+      backgroundImage: `url(${images.regular})`,
       backgroundSize: `${imageSize}px ${imageSize}px`,
       display: 'none',
     };
-  }, [image.regular, imageSize]);
+  }, [images.regular, imageSize]);
 
   return (
     <div className={classes.mazeContainer}>
-      <canvas ref={canvasRef} width={imageSize} height={imageSize} />
-      <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
-      <button onClick={() => history.push('/')} className={classes.backButton}>
-        Back
-      </button>
-      {isDone && <button onClick={download}>Download</button>}
+      <canvas
+        className={classes.mazeCanvas}
+        ref={canvasRef}
+        width={imageSize}
+        height={imageSize}
+      />
+      <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
+      <div className={classes.buttonsContainer}>
+        <button onClick={() => history.push('/')} disabled={loading}>
+          Back
+        </button>
+        {isDone && (
+          <button onClick={download} disabled={loading}>
+            Download
+          </button>
+        )}
+        {isDone && (
+          <button onClick={startNext} disabled={loading}>
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
 };

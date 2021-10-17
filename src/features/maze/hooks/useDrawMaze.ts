@@ -1,7 +1,7 @@
 import { useMemo, useRef, useCallback } from 'react';
-import { CELL_SIZE } from 'shared/constants';
+import { CELL_SIZE } from 'features/images';
 import { getAverageRGB } from 'utils';
-import { MazeGrid, MazePosition } from 'types';
+import { MazeGrid, MazePosition } from '../types';
 
 const BORDER_WIDTH = 2;
 

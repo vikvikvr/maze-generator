@@ -1,8 +1,8 @@
 import { FC, useEffect } from 'react';
-import { useSettings, useUi } from 'hooks';
+
+import { CELL_SIZE, useImages } from 'features/images';
+import { useSettings } from 'features/settings';
 import classes from './Settings.module.css';
-import { actions } from 'store';
-import { useDispatch } from 'react-redux';
 
 type Props = {
   onStart: () => void;
@@ -12,19 +12,17 @@ type Props = {
 
 // TODO: add setting to choose image category
 export const Settings: FC<Props> = ({ onStart }) => {
-  const { settings, onChange } = useSettings();
+  const { onChange, settings } = useSettings();
 
-  const { fetchImage, image } = useUi();
-
-  const dispatch = useDispatch();
+  const { loading, fetchImage } = useImages();
 
   useEffect(() => {
-    fetchImage();
-  }, [fetchImage]);
-
-  useEffect(() => {
-    dispatch(actions.resetMaze());
-  }, [dispatch]);
+    fetchImage({
+      cellSize: CELL_SIZE,
+      gridSize: settings.gridSize,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={classes.settings}>
@@ -58,7 +56,7 @@ export const Settings: FC<Props> = ({ onStart }) => {
           onChange={onChange}
         />
       </div>
-      <button onClick={onStart} disabled={image.loading}>
+      <button onClick={onStart} disabled={loading}>
         Start
       </button>
     </div>

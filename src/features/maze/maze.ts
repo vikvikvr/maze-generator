@@ -1,6 +1,15 @@
-import { MazeGrid, MazePosition } from 'types';
+import { MazeGrid, MazePosition } from './types';
 import { pickRandomElementFromArray } from 'utils';
-import { MazeCell } from './MazeCell';
+
+export class MazeCell {
+  public topWall = true;
+  public bottomWall = true;
+  public leftWall = true;
+  public rightWall = true;
+  public wasVisited = false;
+
+  constructor(public columnIndex = 0, public rowIndex = 0) {}
+}
 
 type MazeStep = {
   grid: MazeGrid;

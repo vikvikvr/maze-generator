@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { createMazeGrid, solveMazeStep } from 'core';
-import { StartMazeOptions } from 'types/options';
-import { MazeGrid } from 'types';
-import { MazeCell } from 'core/MazeCell';
+import { useCallback, useEffect, useState } from 'react';
+import { createMazeGrid, solveMazeStep, MazeCell } from '../maze';
+import { MazeGrid, StartMazeOptions } from '../types';
 
 const initialState = {
   currentPosition: {
@@ -37,8 +35,6 @@ export function useMaze() {
       state = solveMazeStep(state);
 
       setStep((step) => step + 1);
-    } else {
-      console.log('else', state);
     }
   };
 
@@ -55,13 +51,15 @@ export function useMaze() {
     intervalId = setInterval(() => update(), stepDelay);
   };
 
-  useEffect(
+  const resetOnOnmount = useCallback(
     () => () => {
       clearInterval(intervalId);
       state = initialState;
     },
     [],
   );
+
+  useEffect(resetOnOnmount, [resetOnOnmount]);
 
   return {
     grid: state.grid,
