@@ -1,7 +1,6 @@
 export type ImagesState = {
   blurred: string;
   regular: string;
-  loading: boolean;
 };
 
 export type FetchImageOptions = {
@@ -11,5 +10,6 @@ export type FetchImageOptions = {
 
 export type TImagesContext = {
   images: ImagesState;
+  loading: boolean;
   fetchImage: (options: FetchImageOptions) => Promise<void>;
 };

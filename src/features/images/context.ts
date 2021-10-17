@@ -6,8 +6,8 @@ export const ImagesContext = createContext<TImagesContext>({
   images: {
     blurred: '',
     regular: '',
-    loading: false,
   },
+  loading: false,
   fetchImage: async () => {},
 });
 
@@ -15,26 +15,22 @@ export function useImagesContext(): TImagesContext {
   const [images, setImages] = useState<ImagesState>({
     blurred: '',
     regular: '',
-    loading: false,
   });
 
+  const [loading, setLoading] = useState(false);
+
   const fetchImage = useCallback(async (options: FetchImageOptions) => {
-    setImages((images) => ({
-      ...images,
-      loading: true,
-    }));
+    setLoading(true);
 
-    const { blurred, regular } = await fetchImages(options);
+    const newImages = await fetchImages(options);
 
-    setImages({
-      blurred,
-      regular,
-      loading: false,
-    });
+    setImages(newImages);
+    setLoading(false);
   }, []);
 
   return {
     images,
+    loading,
     fetchImage,
   };
 }

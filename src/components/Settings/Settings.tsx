@@ -14,7 +14,7 @@ type Props = {
 export const Settings: FC<Props> = ({ onStart }) => {
   const { onChange, settings } = useSettings();
 
-  const { images, fetchImage } = useImages();
+  const { loading, fetchImage } = useImages();
 
   useEffect(() => {
     fetchImage({
@@ -56,7 +56,7 @@ export const Settings: FC<Props> = ({ onStart }) => {
           onChange={onChange}
         />
       </div>
-      <button onClick={onStart} disabled={images.loading}>
+      <button onClick={onStart} disabled={loading}>
         Start
       </button>
     </div>
