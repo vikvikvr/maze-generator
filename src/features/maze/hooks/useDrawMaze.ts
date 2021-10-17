@@ -131,6 +131,7 @@ export function useDrawMaze({
   return {
     imageRef,
     canvasRef,
+    isImageLight,
     drawMaze,
   };
 }
