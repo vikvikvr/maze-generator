@@ -1,13 +1,22 @@
-/**
- * Utility function to await a given amount of time.
- * @param ms milliseconds to wait
- *
- * @example
- *
- * await sleep(1000) // waits for 1 second
- */
- export function sleep(ms: number): Promise<void> {
+export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(() => resolve(), ms);
   });
+}
+
+function readAsDataURL(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+export async function fetchBase64Image(url: string): Promise<string> {
+  const response = await fetch(url);
+
+  const blob = await response.blob();
+
+  return readAsDataURL(blob);
 }

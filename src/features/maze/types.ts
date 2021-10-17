@@ -1,4 +1,11 @@
-import { MazeGrid } from './maze';
+import { MazeCell } from './maze';
+
+export type MazePosition = {
+  row: number;
+  column: number;
+};
+
+export type MazeGrid = MazeCell[][];
 
 export type SolveMazeOptions = {
   stepDelay: number;

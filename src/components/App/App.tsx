@@ -1,16 +1,17 @@
 import { FC, CSSProperties, useCallback } from 'react';
-import { Maze, Settings } from 'components';
-import { useUi } from 'hooks';
-import classes from './App.module.css';
 import { Switch, Route, useHistory } from 'react-router-dom';
+
+import { useImages } from 'features/images';
+import { Maze, Settings } from 'components';
+import classes from './App.module.css';
 
 export const App: FC = () => {
   const history = useHistory();
 
-  const { image } = useUi();
+  const { images } = useImages();
 
   const appStyle: CSSProperties = {
-    backgroundImage: `url(${image.blurred})`,
+    backgroundImage: `url(${images.blurred})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
