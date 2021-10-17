@@ -1,6 +1,8 @@
 import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { NEXT_MAZE_DELAY, useDrawMaze, useMaze } from 'features/maze';
 import { useSettings } from 'features/settings';
@@ -73,18 +75,26 @@ export const Maze: FC = () => {
 
   return (
     <div className={classes.mazeContainer}>
-      <canvas
-        className={classes.mazeCanvas}
-        ref={canvasRef}
-        width={imageSize}
-        height={imageSize}
-      />
+      <div className={classes.canvasContainer}>
+        <canvas
+          className={classes.mazeCanvas}
+          ref={canvasRef}
+          width={imageSize}
+          height={imageSize}
+        />
+        {isDone && !settings.infinite && (
+          <span className={classes.downloadIcon}>
+            <FontAwesomeIcon
+              icon={faCloudDownloadAlt}
+              color="black"
+              onClick={download}
+            />
+          </span>
+        )}
+      </div>
       <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <div className={classes.buttonsContainer}>
         <button onClick={() => history.push('/')}>Back</button>
-        {isDone && !settings.infinite && (
-          <button onClick={download}>Download</button>
-        )}
         {isDone && !settings.infinite && (
           <button onClick={startNext}>Next</button>
         )}
