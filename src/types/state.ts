@@ -1,9 +1,3 @@
-import { MazeStatus } from './maze';
-
-export type MazeState = {
-  status: MazeStatus;
-};
-
 export type UiState = {
   image: {
     blurred: string;
@@ -21,7 +15,5 @@ export type AppSettings = {
  * App state.
  */
 export type StoreState = {
-  maze: MazeState;
   ui: UiState;
-  settings: AppSettings;
 };

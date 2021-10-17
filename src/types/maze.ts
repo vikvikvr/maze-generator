@@ -6,9 +6,3 @@ export type MazePosition = {
 };
 
 export type MazeGrid = MazeCell[][];
-
-export enum MazeStatus {
-  UNSOLVED = 'UNSOLVED',
-  SOLVING = 'SOLVING',
-  SOLVED = 'SOLVED',
-}

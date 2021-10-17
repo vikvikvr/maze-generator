@@ -1,29 +1,4 @@
-import { MazeStatus, ActionHandler, ThunkHandler } from 'types';
-
-export const startMaze: ActionHandler<'startMaze'> = (state) => ({
-  ...state,
-  maze: {
-    status: MazeStatus.SOLVING,
-  },
-  ui: {
-    ...state.ui,
-    imageId: Date.now().valueOf().toString(),
-  },
-});
-
-export const resetMaze: ActionHandler<'resetMaze'> = (state) => ({
-  ...state,
-  maze: {
-    status: MazeStatus.UNSOLVED,
-  },
-});
-
-export const completeMaze: ActionHandler<'completeMaze'> = (state) => ({
-  ...state,
-  maze: {
-    status: MazeStatus.SOLVED,
-  },
-});
+import { ActionHandler, ThunkHandler } from 'types';
 
 export const setImage: ThunkHandler<'fetchImage', 'success'> = (
   state,
@@ -36,16 +11,6 @@ export const setImage: ThunkHandler<'fetchImage', 'success'> = (
       ...action.payload,
       loading: false,
     },
-  },
-});
-
-export const updateSettings: ActionHandler<'updateSettings'> = (
-  state,
-  action,
-) => ({
-  ...state,
-  settings: {
-    ...action.payload,
   },
 });
 

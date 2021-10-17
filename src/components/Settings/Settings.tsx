@@ -1,8 +1,6 @@
 import { FC, useEffect } from 'react';
-import { useSettings, useUi } from 'hooks';
+import { useUi, useSettings } from 'hooks';
 import classes from './Settings.module.css';
-import { actions } from 'store';
-import { useDispatch } from 'react-redux';
 
 type Props = {
   onStart: () => void;
@@ -12,19 +10,14 @@ type Props = {
 
 // TODO: add setting to choose image category
 export const Settings: FC<Props> = ({ onStart }) => {
-  const { settings, onChange } = useSettings();
+  const { onChange, settings } = useSettings();
 
   const { fetchImage, image } = useUi();
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     fetchImage();
-  }, [fetchImage]);
-
-  useEffect(() => {
-    dispatch(actions.resetMaze());
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={classes.settings}>

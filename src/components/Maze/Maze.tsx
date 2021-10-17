@@ -1,12 +1,12 @@
-import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
+import { useMemo, FC, CSSProperties, useEffect } from 'react';
 import classes from './Maze.module.css';
 import { CELL_SIZE, BORDER_WIDTH } from 'shared/constants';
 import {
   useDownloadComponent,
   useDrawMaze,
   useMaze,
-  useSettings,
   useUi,
+  useSettings,
 } from 'hooks';
 import { useHistory } from 'react-router-dom';
 import { actions } from 'store';
@@ -40,15 +40,7 @@ export const Maze: FC = () => {
 
   const imageSize = grid.length * CELL_SIZE + BORDER_WIDTH * grid.length;
 
-  const completeMaze = useCallback(() => {
-    if (isDone) {
-      dispatch(actions.completeMaze());
-    }
-  }, [dispatch, isDone]);
-
   useEffect(drawMaze, [drawMaze]);
-
-  useEffect(completeMaze, [completeMaze]);
 
   // hidden: only used to get average color
   const imageStyle = useMemo((): CSSProperties => {
@@ -65,10 +57,11 @@ export const Maze: FC = () => {
     <div className={classes.mazeContainer}>
       <canvas ref={canvasRef} width={imageSize} height={imageSize} />
       <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
-      <button onClick={() => history.push('/')} className={classes.backButton}>
-        Back
-      </button>
-      {isDone && <button onClick={download}>Download</button>}
+      <div className={classes.buttonsContainer}>
+        <button onClick={() => history.push('/')}>Back</button>
+        {isDone && <button onClick={download}>Download</button>}
+        {isDone && <button onClick={alert}>Next</button>}
+      </div>
     </div>
   );
 };
