@@ -1,5 +1,6 @@
 import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { PuffLoader } from 'react-spinners';
 
 import { useDrawMaze, useMaze } from 'features/maze';
 import { useSettings } from 'features/settings';
@@ -18,7 +19,7 @@ export const Maze: FC = () => {
 
   const { images, fetchImage, loading } = useImages();
 
-  const { canvasRef, imageRef, drawMaze } = useDrawMaze({
+  const { canvasRef, imageRef, isImageLight, drawMaze } = useDrawMaze({
     grid,
     currentPosition,
     imageSrc: images.regular,
@@ -57,6 +58,10 @@ export const Maze: FC = () => {
     };
   }, [images.regular, imageSize]);
 
+  if (loading) {
+    return <PuffLoader color={isImageLight ? 'black' : 'white'} />;
+  }
+
   return (
     <div className={classes.mazeContainer}>
       <canvas
@@ -67,19 +72,9 @@ export const Maze: FC = () => {
       />
       <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <div className={classes.buttonsContainer}>
-        <button onClick={() => history.push('/')} disabled={loading}>
-          Back
-        </button>
-        {isDone && (
-          <button onClick={download} disabled={loading}>
-            Download
-          </button>
-        )}
-        {isDone && (
-          <button onClick={startNext} disabled={loading}>
-            Next
-          </button>
-        )}
+        <button onClick={() => history.push('/')}>Back</button>
+        {isDone && <button onClick={download}>Download</button>}
+        {isDone && <button onClick={startNext}>Next</button>}
       </div>
     </div>
   );

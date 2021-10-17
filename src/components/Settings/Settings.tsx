@@ -1,4 +1,5 @@
 import { FC, useEffect } from 'react';
+import { PuffLoader } from 'react-spinners';
 
 import { CELL_SIZE, useImages } from 'features/images';
 import { useSettings } from 'features/settings';
@@ -14,7 +15,7 @@ type Props = {
 export const Settings: FC<Props> = ({ onStart }) => {
   const { onChange, settings } = useSettings();
 
-  const { loading, fetchImage } = useImages();
+  const { images, loading, fetchImage } = useImages();
 
   useEffect(() => {
     fetchImage({
@@ -23,6 +24,10 @@ export const Settings: FC<Props> = ({ onStart }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (loading) {
+    return <PuffLoader color={images.regular ? undefined : 'white'} />;
+  }
 
   return (
     <div className={classes.settings}>
