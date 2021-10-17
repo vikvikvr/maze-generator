@@ -1,4 +1,4 @@
-import { ImagesContext } from 'context/images';
+import { ImagesContext } from '../context';
 import { useContext } from 'react';
 
 export function useImages() {

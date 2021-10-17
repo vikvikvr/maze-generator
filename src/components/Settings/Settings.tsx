@@ -1,7 +1,8 @@
 import { FC, useEffect } from 'react';
-import { useSettings, useImages } from 'hooks';
+
+import { CELL_SIZE, useImages } from 'features/images';
+import { useSettings } from 'features/settings';
 import classes from './Settings.module.css';
-import { CELL_SIZE } from 'shared/constants';
 
 type Props = {
   onStart: () => void;

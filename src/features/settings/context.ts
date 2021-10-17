@@ -1,5 +1,5 @@
 import { ChangeEvent, createContext, useCallback, useState } from 'react';
-import { AppSettings, TSettingsContext } from 'types';
+import { AppSettings, TSettingsContext } from './types';
 
 export const SettingsContext = createContext<TSettingsContext>({
   settings: {

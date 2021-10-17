@@ -1,6 +1,6 @@
-import { API_URL } from 'shared/constants';
-import { FetchImageOptions } from 'types/images';
-import { fetchBase64Image } from 'utils/async';
+import { API_URL } from './constants';
+import { FetchImageOptions } from './types';
+import { fetchBase64Image } from 'utils';
 
 export async function fetchImages(options: FetchImageOptions) {
   const imageSize = options.gridSize * options.cellSize;

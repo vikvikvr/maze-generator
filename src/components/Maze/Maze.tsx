@@ -1,14 +1,15 @@
 import { useMemo, FC, CSSProperties, useEffect } from 'react';
-import classes from './Maze.module.css';
-import { CELL_SIZE, BORDER_WIDTH } from 'shared/constants';
-import {
-  useDownloadComponent,
-  useDrawMaze,
-  useMaze,
-  useSettings,
-  useImages,
-} from 'hooks';
 import { useHistory } from 'react-router-dom';
+
+import { useDrawMaze, useMaze } from 'features/maze';
+import { useSettings } from 'features/settings';
+import classes from './Maze.module.css';
+import {
+  BORDER_WIDTH,
+  CELL_SIZE,
+  useDownloadComponent,
+  useImages,
+} from 'features/images';
 
 export const Maze: FC = () => {
   const { grid, currentPosition, isDone, start } = useMaze();

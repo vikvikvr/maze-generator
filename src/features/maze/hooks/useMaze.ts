@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { createMazeGrid, solveMazeStep, MazeCell } from 'core';
-import { MazeGrid, StartMazeOptions } from 'types';
+import { createMazeGrid, solveMazeStep, MazeCell } from '../maze';
+import { MazeGrid, StartMazeOptions } from '../types';
 
 const initialState = {
   currentPosition: {

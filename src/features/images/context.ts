@@ -1,6 +1,6 @@
-import { fetchImages } from 'api/images';
+import { fetchImages } from './api';
 import { createContext, useCallback, useState } from 'react';
-import { TImagesContext, ImagesState, FetchImageOptions } from 'types';
+import { TImagesContext, ImagesState, FetchImageOptions } from './types';
 
 export const ImagesContext = createContext<TImagesContext>({
   images: {

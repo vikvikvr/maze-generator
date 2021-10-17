@@ -1,4 +1,4 @@
-import { SettingsContext } from 'context';
+import { SettingsContext } from '../context';
 import { useContext } from 'react';
 
 export function useSettings() {

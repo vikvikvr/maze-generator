@@ -1,4 +1,4 @@
-import { MazeCell } from 'core/MazeCell';
+import { MazeCell } from './maze';
 
 export type MazePosition = {
   row: number;
