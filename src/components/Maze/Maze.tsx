@@ -1,4 +1,4 @@
-import { useMemo, FC, CSSProperties, useEffect } from 'react';
+import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useDrawMaze, useMaze } from 'features/maze';
@@ -16,7 +16,7 @@ export const Maze: FC = () => {
 
   const history = useHistory();
 
-  const { images } = useImages();
+  const { images, fetchImage, loading } = useImages();
 
   const { canvasRef, imageRef, drawMaze } = useDrawMaze({
     grid,
@@ -33,6 +33,14 @@ export const Maze: FC = () => {
     start(settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const startNext = useCallback(async () => {
+    await fetchImage({
+      cellSize: CELL_SIZE,
+      gridSize: settings.gridSize,
+    });
+    start(settings);
+  }, [fetchImage, settings, start]);
 
   const imageSize = grid.length * CELL_SIZE + BORDER_WIDTH * grid.length;
 
@@ -51,12 +59,27 @@ export const Maze: FC = () => {
 
   return (
     <div className={classes.mazeContainer}>
-      <canvas ref={canvasRef} width={imageSize} height={imageSize} />
+      <canvas
+        className={classes.mazeCanvas}
+        ref={canvasRef}
+        width={imageSize}
+        height={imageSize}
+      />
       <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <div className={classes.buttonsContainer}>
-        <button onClick={() => history.push('/')}>Back</button>
-        {isDone && <button onClick={download}>Download</button>}
-        {isDone && <button onClick={alert}>Next</button>}
+        <button onClick={() => history.push('/')} disabled={loading}>
+          Back
+        </button>
+        {isDone && (
+          <button onClick={download} disabled={loading}>
+            Download
+          </button>
+        )}
+        {isDone && (
+          <button onClick={startNext} disabled={loading}>
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
