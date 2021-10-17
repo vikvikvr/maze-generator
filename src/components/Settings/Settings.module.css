@@ -16,6 +16,11 @@
   display: grid;
 }
 
+.infiniteContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .appVersion {
   place-self: end;
 }

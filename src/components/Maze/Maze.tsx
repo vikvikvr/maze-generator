@@ -2,7 +2,7 @@ import { useMemo, FC, CSSProperties, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
 
-import { useDrawMaze, useMaze } from 'features/maze';
+import { NEXT_MAZE_DELAY, useDrawMaze, useMaze } from 'features/maze';
 import { useSettings } from 'features/settings';
 import classes from './Maze.module.css';
 import {
@@ -43,9 +43,18 @@ export const Maze: FC = () => {
     start(settings);
   }, [fetchImage, settings, start]);
 
+  const startNextInfinite = useCallback(() => {
+    if (isDone && settings.infinite) {
+      setTimeout(startNext, NEXT_MAZE_DELAY);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDone, settings]);
+
   const imageSize = grid.length * CELL_SIZE + BORDER_WIDTH * grid.length;
 
   useEffect(drawMaze, [drawMaze]);
+
+  useEffect(startNextInfinite, [startNextInfinite]);
 
   // hidden: only used to get average color
   const imageStyle = useMemo((): CSSProperties => {
@@ -73,8 +82,12 @@ export const Maze: FC = () => {
       <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <div className={classes.buttonsContainer}>
         <button onClick={() => history.push('/')}>Back</button>
-        {isDone && <button onClick={download}>Download</button>}
-        {isDone && <button onClick={startNext}>Next</button>}
+        {isDone && !settings.infinite && (
+          <button onClick={download}>Download</button>
+        )}
+        {isDone && !settings.infinite && (
+          <button onClick={startNext}>Next</button>
+        )}
       </div>
     </div>
   );
