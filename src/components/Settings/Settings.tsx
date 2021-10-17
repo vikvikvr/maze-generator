@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
-import { useUi, useSettings } from 'hooks';
+import { useSettings, useImages } from 'hooks';
 import classes from './Settings.module.css';
+import { CELL_SIZE } from 'shared/constants';
 
 type Props = {
   onStart: () => void;
@@ -12,10 +13,13 @@ type Props = {
 export const Settings: FC<Props> = ({ onStart }) => {
   const { onChange, settings } = useSettings();
 
-  const { fetchImage, image } = useUi();
+  const { images, fetchImage } = useImages();
 
   useEffect(() => {
-    fetchImage();
+    fetchImage({
+      cellSize: CELL_SIZE,
+      gridSize: settings.gridSize,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,7 +55,7 @@ export const Settings: FC<Props> = ({ onStart }) => {
           onChange={onChange}
         />
       </div>
-      <button onClick={onStart} disabled={image.loading}>
+      <button onClick={onStart} disabled={images.loading}>
         Start
       </button>
     </div>

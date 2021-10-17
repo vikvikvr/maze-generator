@@ -5,26 +5,22 @@ import {
   useDownloadComponent,
   useDrawMaze,
   useMaze,
-  useUi,
   useSettings,
+  useImages,
 } from 'hooks';
 import { useHistory } from 'react-router-dom';
-import { actions } from 'store';
-import { useDispatch } from 'react-redux';
 
 export const Maze: FC = () => {
   const { grid, currentPosition, isDone, start } = useMaze();
 
   const history = useHistory();
 
-  const dispatch = useDispatch();
-
-  const { image } = useUi();
+  const { images } = useImages();
 
   const { canvasRef, imageRef, drawMaze } = useDrawMaze({
     grid,
     currentPosition,
-    imageSrc: image.regular,
+    imageSrc: images.regular,
     isDone,
   });
 
@@ -34,7 +30,6 @@ export const Maze: FC = () => {
 
   useEffect(() => {
     start(settings);
-    dispatch(actions.startMaze());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,16 +42,16 @@ export const Maze: FC = () => {
     return {
       width: imageSize,
       height: imageSize,
-      backgroundImage: `url(${image.regular})`,
+      backgroundImage: `url(${images.regular})`,
       backgroundSize: `${imageSize}px ${imageSize}px`,
       display: 'none',
     };
-  }, [image.regular, imageSize]);
+  }, [images.regular, imageSize]);
 
   return (
     <div className={classes.mazeContainer}>
       <canvas ref={canvasRef} width={imageSize} height={imageSize} />
-      <img src={image.regular} style={imageStyle} alt="pic" ref={imageRef} />
+      <img src={images.regular} style={imageStyle} alt="pic" ref={imageRef} />
       <div className={classes.buttonsContainer}>
         <button onClick={() => history.push('/')}>Back</button>
         {isDone && <button onClick={download}>Download</button>}

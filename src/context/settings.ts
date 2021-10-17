@@ -1,10 +1,5 @@
 import { ChangeEvent, createContext, useCallback, useState } from 'react';
-import { AppSettings } from 'types';
-
-export type TSettingsContext = {
-  settings: AppSettings;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-};
+import { AppSettings, TSettingsContext } from 'types';
 
 export const SettingsContext = createContext<TSettingsContext>({
   settings: {

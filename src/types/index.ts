@@ -1,5 +1,3 @@
-export * from './handlers';
+export * from './images';
 export * from './maze';
-export * from './options';
-export * from './payloads';
-export * from './state';
+export * from './settings';
