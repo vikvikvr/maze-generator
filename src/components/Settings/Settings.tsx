@@ -2,7 +2,15 @@ import { FC, useEffect } from 'react';
 import { PuffLoader } from 'react-spinners';
 
 import { CELL_SIZE, useImages } from 'features/images';
-import { useSettings } from 'features/settings';
+import {
+  GRID_SIZE_MAX,
+  GRID_SIZE_MIN,
+  GRID_SIZE_STEP,
+  STEP_DELAY_MAX,
+  STEP_DELAY_MIN,
+  STEP_DELAY_STEP,
+  useSettings,
+} from 'features/settings';
 import classes from './Settings.module.css';
 
 type Props = {
@@ -43,10 +51,10 @@ export const Settings: FC<Props> = ({ onStart }) => {
           type="range"
           name="gridSize"
           value={settings.gridSize}
-          min={5}
-          max={30}
-          step={5}
-          onChange={onChange}
+          min={GRID_SIZE_MIN}
+          max={GRID_SIZE_MAX}
+          step={GRID_SIZE_STEP}
+          onChange={(e) => onChange('gridSize', parseInt(e.target.value))}
         />
       </div>
       <div className={classes.sliderContainer}>
@@ -55,10 +63,19 @@ export const Settings: FC<Props> = ({ onStart }) => {
           type="range"
           name="stepDelay"
           value={settings.stepDelay}
-          min={0}
-          max={500}
-          step={20}
-          onChange={onChange}
+          min={STEP_DELAY_MIN}
+          max={STEP_DELAY_MAX}
+          step={STEP_DELAY_STEP}
+          onChange={(e) => onChange('stepDelay', parseInt(e.target.value))}
+        />
+      </div>
+      <div className={classes.infiniteContainer}>
+        <label>Infinite</label>
+        <input
+          type="checkbox"
+          name="stepDelay"
+          checked={settings.infinite}
+          onChange={(e) => onChange('infinite', e.target.checked)}
         />
       </div>
       <button onClick={onStart} disabled={loading}>

@@ -23,7 +23,9 @@ export function useMaze() {
   const [step, setStep] = useState(0);
 
   const isDone = state.grid.length
-    ? state.grid.flat().every((cell) => cell.wasVisited === true)
+    ? state.grid.flat().every((cell) => cell.wasVisited === true) &&
+      state.currentPosition.column === 0 &&
+      state.currentPosition.row === 0
     : false;
 
   const update = () => {

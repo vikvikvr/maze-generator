@@ -1,11 +1,13 @@
-import { ChangeEvent } from 'react';
-
 export type AppSettings = {
   gridSize: number;
   stepDelay: number;
+  infinite: boolean;
 };
 
 export type TSettingsContext = {
   settings: AppSettings;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: <K extends keyof AppSettings>(
+    key: K,
+    value: AppSettings[K],
+  ) => void;
 };
